@@ -8,6 +8,6 @@
 #' @examples
 #' multiply100(5)
 #' multiply100(-90)
-multiply100=function(x){
-  return(x*100)
+multiply100 <- function(x) {
+  return(x * 100)
 }

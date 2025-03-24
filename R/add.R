@@ -8,6 +8,6 @@
 #' @examples
 #' add100(5)
 #' add100(-90)
-add100=function(x){
-  x+100
+add100 <- function(x) {
+  x + 100
 }
