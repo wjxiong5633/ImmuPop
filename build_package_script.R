@@ -26,6 +26,9 @@ usethis::use_test("multiply100")
 devtools::check()
 usethis::proj_get()
 
-detach("package:ImmuPop", unload=TRUE)
+
+devtools::document()  # 生成 NAMESPACE 和手册
+devtools::build()
+devtools::install()  # 强制安装
 devtools::test_coverage()
 ##

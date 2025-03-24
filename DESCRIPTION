@@ -1,10 +1,10 @@
 Package: ImmuPop
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Estimate population immunity metrics through individual serology data
 Version: 0.1.0
 Author: Weijia Xiong
 Maintainer: wjxiong@connect.hku.hk <yourself@somewhere.net>
-Description: A package to use individual serology data to estimate population immunity metrics
+Description: Tools for setting up an age and HAI titer-structured framework to use individual serology data to estimate population immunity metrics
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
