@@ -5,7 +5,7 @@ Version: 0.1.0
 Author: Weijia Xiong
 Maintainer: Weijia Xiong <wjxiong@connect.hku.hk>
 Description: This package provides functions to estimate population immunity against influenza using individual antibody titers. 
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
