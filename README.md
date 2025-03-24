@@ -18,8 +18,8 @@ You can install the development version of ImmuPop from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("pak")
-pak::pak("wjxiong5633/ImmuPop")
+# install.packages("devtools")
+devtools::install_github("wjxiong5633/ImmuPop")
 ```
 
 ## Example
