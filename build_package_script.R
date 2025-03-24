@@ -11,13 +11,21 @@ install.packages("styler")
 styler::style_pkg()
 
 
-
-usethis::use_testthat()
 # 安装 {testthat}
 install.packages("testthat")
+
 # 快速创建测试文件
-usethis::use_test()
+usethis::use_testthat()
+usethis::use_test("add100")
+usethis::use_test("multiply100")
 
 
-usethis::use_mit_license()
-usethis::use_version()
+## usethis::use_mit_license()
+## usethis::use_version()
+
+devtools::check()
+usethis::proj_get()
+
+detach("package:ImmuPop", unload=TRUE)
+devtools::test_coverage()
+##
