@@ -4,7 +4,7 @@ Title: Estimating Population Immunity Using Individual Antibody Titers
 Version: 0.1.0
 Author: Weijia Xiong
 Maintainer: Weijia Xiong <wjxiong@connect.hku.hk>
-Description: This package provides functions to estimate population immunity against influenza using individual antibody titers. 
+Description: This package provides functions to estimate population immunity using individual antibody titers. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
