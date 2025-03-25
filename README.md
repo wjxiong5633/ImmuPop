@@ -8,36 +8,32 @@
 [![R-CMD-check](https://github.com/wjxiong5633/ImmuPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmuPop/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-**ImmuPop** is an R package designed to estimate four key population
-immunity metrics from individual serology data: - **Geometric Mean Titer
-(GMT)**
+**ImmuPop** is an R package designed to estimate key population immunity
+metrics from individual serology data. The package provides the
+following estimators:
 
--   **Proportion of Non-Naive Individuals**
-
+-   **Geometric Mean Titer (GMT)**
+-   **Proportion of Non-Naïve Individuals**
 -   **Proportion of Population Immune**
+-   **Relative Reduction in Reproductive Number (R0)**
 
--   **Relative Reduction in Reproductive Number**
-
-These estimators provide insights into population immunity, which can be
-crucial for understanding and predicting the impact of infectious
-diseases.
+These estimators help assess population immunity and predict the impact
+of infectious diseases.
 
 ## Installation
 
-You can install the development version of the **ImmuPop** package from
-GitHub using the following command:
+You can install the development version of **ImmuPop** from GitHub:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("wjxiong5633/ImmuPop")
-#> Using GitHub PAT from the git credential store.
-#> Skipping install of 'ImmuPop' from a github remote, the SHA1 (f39d0371) has not changed since last install.
-#>   Use `force = TRUE` to force installation
 ```
 
 ## Example Usage
 
-First, load the necessary libraries and the **ImmuPop** package:
+### Load Required Libraries
+
+Before using the package, load **ImmuPop** and other required libraries:
 
 ``` r
 library(ImmuPop)
@@ -46,16 +42,14 @@ library(rlist)
 library(MCMCpack)
 ```
 
-### Sample Data
+### Load Raw Data
 
-Here is an example of individual-level data that can be used to estimate
-immunity:
-
-First, load your own dataset, contains columns time, epi, bsl, age,
+The package includes example data (`ImmuPop_raw_data`), which contains
+columns such as `time`, `epi`, `bsl`, `age`, and `raw_titer`.
 
 ``` r
 data("ImmuPop_raw_data")
-knitr::kable(ImmuPop_raw_data, caption = "Raw dataset", digits = 3)
+knitr::kable(ImmuPop_raw_data, digits = 3, row.names = F)
 ```
 
 |  uid | time | epi | bsl | raw_titer | age |
@@ -73,11 +67,14 @@ knitr::kable(ImmuPop_raw_data, caption = "Raw dataset", digits = 3)
 | 1006 |  200 |   2 | yes |        20 |  64 |
 | 1006 |  250 |   2 | no  |        80 |  64 |
 
-Raw dataset
+### Data Preparation
+
+Use the `generate_data()` function to preprocess raw data and categorize
+age groups:
 
 ``` r
-data_example <- generate_data(ImmuPop_raw_data, cut_age = c(0,18,50, 100))
-knitr::kable(data_example, caption = "Tidy dataset for estimation", digits = 3)
+data_example <- generate_data(ImmuPop_raw_data, cut_age = c(0, 18, 50, 100))
+knitr::kable(data_example, digits = 3, row.names = F) 
 ```
 
 |  uid | time | epi | bsl | raw_titer | age | agegp1    | titer_level |
@@ -95,39 +92,48 @@ knitr::kable(data_example, caption = "Tidy dataset for estimation", digits = 3)
 | 1006 |  200 |   2 | yes |        20 |  64 | \[50,100) |           3 |
 | 1006 |  250 |   2 | no  |        80 |  64 | \[50,100) |           5 |
 
-Tidy dataset for estimation
+### Define Population Parameters
 
-### Setting Age Proportions and Contact Matrix
+#### Age Proportions
 
-Set the age group proportions and the contact matrix. These values
-should be consistent with the structure of your population.
-
-``` r
-age_prop <- c(0.2, 0.4, 0.4)  # Proportions for age groups based on your cut age above 
-contact_matrix <- matrix(c(22, 16, 15, 24, 28, 30, 18, 32,  35), nrow = 3, byrow = TRUE)
-```
-
-### Setting Protection Effects
-
-Define the protection effect for different HAI titer levels for children
-and adults, make sure the length of vector is equal to the maximum titer
-levels.
+Define age group proportions based on the `cut_age` parameter:
 
 ``` r
-## max(data_example$titer_level) = 10
-protect_c <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6,0.7,0.8,0.9,0.95)
-protect_a <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6,0.7,0.8,0.9,0.95)
+age_prop <- c(0.2, 0.4, 0.4) # Adjust proportions according to your population
 ```
 
-### Estimating Immunity for a Specific Time Point
+#### Contact Matrix
 
-To obtain immunity estimators for a specific time point (e.g., time =
-282):
+Define the **contact matrix**
+
+``` r
+contact_matrix <- matrix(
+  c(22, 16, 15,24, 28, 30, 18, 32, 35),
+  nrow = 3, byrow = TRUE
+)
+```
+
+#### Protection Effects
+
+Define protection effects for children and adults based on **HAI titer
+levels**:
+
+``` r
+# Maximum observed titer level should match the vector length
+protect_c <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
+protect_a <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
+```
+
+------------------------------------------------------------------------
+
+## Immunity Estimation
+
+### Estimating Immunity at a Specific Time Point
+
+To estimate immunity for a **specific time point** (e.g., `time = 200`):
 
 ``` r
 data_example_t <- data_example %>% filter(time == 200)
-
-df = data_example_t
 
 result <- ImmuPop_timet_est(
   df = data_example_t,
@@ -138,76 +144,78 @@ result <- ImmuPop_timet_est(
   sim_num = 100
 )
 
-
-knitr::kable(result, caption = "Estimation at time 200", digits = 3)
+knitr::kable(result, digits = 3, row.names = F)
 ```
 
 | estimator | value | CI_lwr | CI_upr |
 |:----------|------:|-------:|-------:|
-| pop_immun | 0.219 |  0.180 |  0.367 |
-| RR_R0     | 0.231 |  0.209 |  0.408 |
-| GMT       | 7.300 |  1.970 | 11.105 |
-| prop_5    | 0.400 |  0.000 |  0.610 |
-
-Estimation at time 200
+| pop_immun | 0.220 |  0.180 |  0.431 |
+| RR_R0     | 0.229 |  0.208 |  0.373 |
+| GMT       | 7.400 |  2.295 | 11.505 |
+| prop_5    | 0.400 |  0.000 |  0.400 |
 
 ### Estimating Immunity Across All Time Points
 
-To obtain immunity estimates for all time points:
+To estimate immunity across **all time points**:
 
 ``` r
-est_res_all <- ImmuPop_allt_est(data_example, protect_c, protect_a, age_prop, contact_matrix, sim_num = 100)
+est_res_all <- ImmuPop_allt_est(
+  df_long = data_example,
+  protect_c = protect_c,
+  protect_a = protect_a,
+  age_prop = age_prop,
+  contact_matrix = contact_matrix,
+  sim_num = 100
+)
 
-knitr::kable(est_res_all, caption = "Estimation at each time point", digits = 3)
+knitr::kable(est_res_all, digits = 3, row.names = F)
 ```
 
 | estimator | time |  value | CI_lwr | CI_upr |
 |:----------|-----:|-------:|-------:|-------:|
-| GMT       |  100 |  5.000 |  1.695 |  7.705 |
-| GMT       |  150 | 40.800 |  8.285 | 71.030 |
-| GMT       |  200 |  7.400 |  2.600 | 12.010 |
-| GMT       |  250 | 62.700 | 15.910 | 96.815 |
-| RR_R0     |  100 |  0.186 |  0.179 |  0.390 |
-| RR_R0     |  150 |  0.433 |  0.346 |  0.544 |
-| RR_R0     |  200 |  0.229 |  0.209 |  0.389 |
-| RR_R0     |  250 |  0.538 |  0.481 |  0.646 |
-| pop_immun |  100 |  0.180 |  0.160 |  0.383 |
-| pop_immun |  150 |  0.441 |  0.342 |  0.542 |
-| pop_immun |  200 |  0.220 |  0.177 |  0.373 |
-| pop_immun |  250 |  0.539 |  0.489 |  0.651 |
+| GMT       |  100 |  5.000 |  1.800 |  7.905 |
+| GMT       |  150 | 44.400 |  7.475 | 70.220 |
+| GMT       |  200 |  7.200 |  2.495 | 11.400 |
+| GMT       |  250 | 55.600 | 17.285 | 93.035 |
+| RR_R0     |  100 |  0.190 |  0.178 |  0.347 |
+| RR_R0     |  150 |  0.433 |  0.390 |  0.590 |
+| RR_R0     |  200 |  0.227 |  0.217 |  0.368 |
+| RR_R0     |  250 |  0.538 |  0.440 |  0.573 |
+| pop_immun |  100 |  0.181 |  0.160 |  0.328 |
+| pop_immun |  150 |  0.440 |  0.375 |  0.546 |
+| pop_immun |  200 |  0.220 |  0.180 |  0.362 |
+| pop_immun |  250 |  0.536 |  0.431 |  0.576 |
 | prop_5    |  100 |  0.000 |  0.000 |  0.400 |
-| prop_5    |  150 |  0.800 |  0.200 |  1.000 |
+| prop_5    |  150 |  0.600 |  0.200 |  1.000 |
 | prop_5    |  200 |  0.400 |  0.000 |  0.800 |
 | prop_5    |  250 |  1.000 |  0.600 |  1.000 |
 
-Estimation at each time point
+### Estimating Baseline Population Immunity (Pre-Epidemic)
 
-### Estimating Baseline Immunity (Pre-Epidemic)
-
-To obtain estimators for the baseline period (pre-epidemic) for each
-epidemic:
+To estimate **baseline population immunity** before an epidemic:
 
 ``` r
 df_long_bsl <- data_example %>% filter(bsl == "yes")
-est_res_bsl <- ImmuPop_bsl_est(df_long_bsl, protect_c, protect_a, age_prop, contact_matrix, sim_num = 100)
-knitr::kable(est_res_bsl, caption = "Estimation at each time point", digits = 3)
+
+est_res_bsl <- ImmuPop_bsl_est(
+  df = df_long_bsl,
+  protect_c = protect_c,
+  protect_a = protect_a,
+  age_prop = age_prop,
+  contact_matrix = contact_matrix,
+  sim_num = 100
+)
+
+knitr::kable(est_res_bsl, digits = 3, row.names = F)
 ```
 
-|     | estimator | epi | value | CI_lwr | CI_upr |
-|:----|:----------|----:|------:|-------:|-------:|
-| 1.1 | GMT       |   1 | 5.000 |  2.400 |  8.010 |
-| 2.1 | GMT       |   2 | 7.800 |  2.885 | 12.010 |
-| 1.2 | RR_R0     |   1 | 0.190 |  0.179 |  0.387 |
-| 2.2 | RR_R0     |   2 | 0.233 |  0.203 |  0.404 |
-| 1.3 | pop_immun |   1 | 0.181 |  0.159 |  0.356 |
-| 2.3 | pop_immun |   2 | 0.220 |  0.178 |  0.374 |
-| 1.4 | prop_5    |   1 | 0.000 |  0.000 |  0.400 |
-| 2.4 | prop_5    |   2 | 0.400 |  0.000 |  0.800 |
-
-Estimation at each time point
-
-This package provides powerful tools for estimating immunity, reduction
-in R0, and understanding the impact of vaccines or infections in
-different population groups.
-
-------------------------------------------------------------------------
+| estimator | epi | value | CI_lwr | CI_upr |
+|:----------|----:|------:|-------:|-------:|
+| GMT       |   1 | 4.800 |  1.895 |  8.400 |
+| GMT       |   2 | 6.600 |  1.990 | 11.800 |
+| RR_R0     |   1 | 0.187 |  0.180 |  0.309 |
+| RR_R0     |   2 | 0.228 |  0.206 |  0.392 |
+| pop_immun |   1 | 0.180 |  0.160 |  0.290 |
+| pop_immun |   2 | 0.216 |  0.174 |  0.426 |
+| prop_5    |   1 | 0.000 |  0.000 |  0.400 |
+| prop_5    |   2 | 0.400 |  0.000 |  0.610 |
