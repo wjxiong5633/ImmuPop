@@ -49,36 +49,583 @@
 </h1></div>
 <!-- badges: start -->
 
-<p>The goal of ImmuPop is to …</p>
+<p><strong>ImmuPop</strong> is an R package designed to estimate four key population immunity metrics from individual serology data: - <strong>Geometric Mean Titer (GMT)</strong></p>
+<ul>
+<li><p><strong>Proportion of Non-Naive Individuals</strong></p></li>
+<li><p><strong>Proportion of Population Immune</strong></p></li>
+<li><p><strong>Relative Reduction in Reproductive Number</strong></p></li>
+</ul>
+<p>These estimators provide insights into population immunity, which can be crucial for understanding and predicting the impact of infectious diseases.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of ImmuPop from <a href="https://github.com/" class="external-link">GitHub</a> with:</p>
+<p>You can install the development version of the <strong>ImmuPop</strong> package from GitHub using the following command:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"wjxiong5633/ImmuPop"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"wjxiong5633/ImmuPop"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Using GitHub PAT from the git credential store.</span></span>
+<span><span class="co">#&gt; Skipping install of 'ImmuPop' from a github remote, the SHA1 (f39d0371) has not changed since last install.</span></span>
+<span><span class="co">#&gt;   Use `force = TRUE` to force installation</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+<h2 id="example-usage">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage"></a>
 </h2>
-<p>This is a basic example which shows you how to solve a common problem:</p>
+<p>First, load the necessary libraries and the <strong>ImmuPop</strong> package:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co">## library(ImmuPop)</span></span>
-<span><span class="co">## basic example code</span></span></code></pre></div>
-<p>What is special about using <code>README.Rmd</code> instead of just <code>README.md</code>? You can include R chunks like so:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">ImmuPop</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://renkun-ken.github.io/rlist/" class="external-link">rlist</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://CRAN.R-project.org/package=MCMCpack" class="external-link">MCMCpack</a></span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="sample-data">Sample Data<a class="anchor" aria-label="anchor" href="#sample-data"></a>
+</h3>
+<p>Here is an example of individual-level data that can be used to estimate immunity:</p>
+<p>First, load your own dataset, contains columns time, epi, bsl, age,</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      speed           dist       </span></span>
-<span><span class="co">#&gt;  Min.   : 4.0   Min.   :  2.00  </span></span>
-<span><span class="co">#&gt;  1st Qu.:12.0   1st Qu.: 26.00  </span></span>
-<span><span class="co">#&gt;  Median :15.0   Median : 36.00  </span></span>
-<span><span class="co">#&gt;  Mean   :15.4   Mean   : 42.98  </span></span>
-<span><span class="co">#&gt;  3rd Qu.:19.0   3rd Qu.: 56.00  </span></span>
-<span><span class="co">#&gt;  Max.   :25.0   Max.   :120.00</span></span></code></pre></div>
-<p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date. <code>devtools::build_readme()</code> is handy for this.</p>
-<p>You can also embed plots, for example:</p>
-<p><img src="reference/figures/README-pressure-1.png" width="100%"></p>
-<p>In that case, don’t forget to commit and push the resulting figure files, so they display on GitHub and CRAN.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ImmuPop_raw_data"</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">ImmuPop_raw_data</span>, caption <span class="op">=</span> <span class="st">"Raw dataset"</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">time</th>
+<th align="right">epi</th>
+<th align="left">bsl</th>
+<th align="right">raw_titer</th>
+<th align="right">age</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1001</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="left">yes</td>
+<td align="right">5</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="right">1001</td>
+<td align="right">150</td>
+<td align="right">1</td>
+<td align="left">no</td>
+<td align="right">40</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="right">1002</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="left">yes</td>
+<td align="right">10</td>
+<td align="right">25</td>
+</tr>
+<tr class="even">
+<td align="right">1002</td>
+<td align="right">150</td>
+<td align="right">1</td>
+<td align="left">no</td>
+<td align="right">160</td>
+<td align="right">25</td>
+</tr>
+<tr class="odd">
+<td align="right">1003</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="left">yes</td>
+<td align="right">10</td>
+<td align="right">55</td>
+</tr>
+<tr class="even">
+<td align="right">1003</td>
+<td align="right">150</td>
+<td align="right">1</td>
+<td align="left">no</td>
+<td align="right">20</td>
+<td align="right">55</td>
+</tr>
+<tr class="odd">
+<td align="right">1004</td>
+<td align="right">200</td>
+<td align="right">2</td>
+<td align="left">yes</td>
+<td align="right">5</td>
+<td align="right">14</td>
+</tr>
+<tr class="even">
+<td align="right">1004</td>
+<td align="right">250</td>
+<td align="right">2</td>
+<td align="left">no</td>
+<td align="right">80</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="right">1005</td>
+<td align="right">200</td>
+<td align="right">2</td>
+<td align="left">yes</td>
+<td align="right">10</td>
+<td align="right">40</td>
+</tr>
+<tr class="even">
+<td align="right">1005</td>
+<td align="right">250</td>
+<td align="right">2</td>
+<td align="left">no</td>
+<td align="right">160</td>
+<td align="right">40</td>
+</tr>
+<tr class="odd">
+<td align="right">1006</td>
+<td align="right">200</td>
+<td align="right">2</td>
+<td align="left">yes</td>
+<td align="right">20</td>
+<td align="right">64</td>
+</tr>
+<tr class="even">
+<td align="right">1006</td>
+<td align="right">250</td>
+<td align="right">2</td>
+<td align="left">no</td>
+<td align="right">80</td>
+<td align="right">64</td>
+</tr>
+</tbody>
+</table>
+<p>Raw dataset</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generate_data.html">generate_data</a></span><span class="op">(</span><span class="va">ImmuPop_raw_data</span>, cut_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">18</span>,<span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">data_example</span>, caption <span class="op">=</span> <span class="st">"Tidy dataset for estimation"</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="right">uid</th>
+<th align="right">time</th>
+<th align="right">epi</th>
+<th align="left">bsl</th>
+<th align="right">raw_titer</th>
+<th align="right">age</th>
+<th align="left">agegp1</th>
+<th align="right">titer_level</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1001</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="left">yes</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="left">[0,18)</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">1001</td>
+<td align="right">150</td>
+<td align="right">1</td>
+<td align="left">no</td>
+<td align="right">40</td>
+<td align="right">10</td>
+<td align="left">[0,18)</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td align="right">1002</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="left">yes</td>
+<td align="right">10</td>
+<td align="right">25</td>
+<td align="left">[18,50)</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">1002</td>
+<td align="right">150</td>
+<td align="right">1</td>
+<td align="left">no</td>
+<td align="right">160</td>
+<td align="right">25</td>
+<td align="left">[18,50)</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="right">1003</td>
+<td align="right">100</td>
+<td align="right">1</td>
+<td align="left">yes</td>
+<td align="right">10</td>
+<td align="right">55</td>
+<td align="left">[50,100)</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">1003</td>
+<td align="right">150</td>
+<td align="right">1</td>
+<td align="left">no</td>
+<td align="right">20</td>
+<td align="right">55</td>
+<td align="left">[50,100)</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td align="right">1004</td>
+<td align="right">200</td>
+<td align="right">2</td>
+<td align="left">yes</td>
+<td align="right">5</td>
+<td align="right">14</td>
+<td align="left">[0,18)</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">1004</td>
+<td align="right">250</td>
+<td align="right">2</td>
+<td align="left">no</td>
+<td align="right">80</td>
+<td align="right">14</td>
+<td align="left">[0,18)</td>
+<td align="right">5</td>
+</tr>
+<tr class="odd">
+<td align="right">1005</td>
+<td align="right">200</td>
+<td align="right">2</td>
+<td align="left">yes</td>
+<td align="right">10</td>
+<td align="right">40</td>
+<td align="left">[18,50)</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">1005</td>
+<td align="right">250</td>
+<td align="right">2</td>
+<td align="left">no</td>
+<td align="right">160</td>
+<td align="right">40</td>
+<td align="left">[18,50)</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="right">1006</td>
+<td align="right">200</td>
+<td align="right">2</td>
+<td align="left">yes</td>
+<td align="right">20</td>
+<td align="right">64</td>
+<td align="left">[50,100)</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">1006</td>
+<td align="right">250</td>
+<td align="right">2</td>
+<td align="left">no</td>
+<td align="right">80</td>
+<td align="right">64</td>
+<td align="left">[50,100)</td>
+<td align="right">5</td>
+</tr>
+</tbody>
+</table>
+<p>Tidy dataset for estimation</p>
+</div>
+<div class="section level3">
+<h3 id="setting-age-proportions-and-contact-matrix">Setting Age Proportions and Contact Matrix<a class="anchor" aria-label="anchor" href="#setting-age-proportions-and-contact-matrix"></a>
+</h3>
+<p>Set the age group proportions and the contact matrix. These values should be consistent with the structure of your population.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">age_prop</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.2</span>, <span class="fl">0.4</span>, <span class="fl">0.4</span><span class="op">)</span>  <span class="co"># Proportions for age groups based on your cut age above </span></span>
+<span><span class="va">contact_matrix</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">22</span>, <span class="fl">16</span>, <span class="fl">15</span>, <span class="fl">24</span>, <span class="fl">28</span>, <span class="fl">30</span>, <span class="fl">18</span>, <span class="fl">32</span>,  <span class="fl">35</span><span class="op">)</span>, nrow <span class="op">=</span> <span class="fl">3</span>, byrow <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="setting-protection-effects">Setting Protection Effects<a class="anchor" aria-label="anchor" href="#setting-protection-effects"></a>
+</h3>
+<p>Define the protection effect for different HAI titer levels for children and adults, make sure the length of vector is equal to the maximum titer levels.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">## max(data_example$titer_level) = 10</span></span>
+<span><span class="va">protect_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>,<span class="fl">0.7</span>,<span class="fl">0.8</span>,<span class="fl">0.9</span>,<span class="fl">0.95</span><span class="op">)</span></span>
+<span><span class="va">protect_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>,<span class="fl">0.7</span>,<span class="fl">0.8</span>,<span class="fl">0.9</span>,<span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="estimating-immunity-for-a-specific-time-point">Estimating Immunity for a Specific Time Point<a class="anchor" aria-label="anchor" href="#estimating-immunity-for-a-specific-time-point"></a>
+</h3>
+<p>To obtain immunity estimators for a specific time point (e.g., time = 282):</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">data_example_t</span> <span class="op">&lt;-</span> <span class="va">data_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">time</span> <span class="op">==</span> <span class="fl">200</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">df</span> <span class="op">=</span> <span class="va">data_example_t</span></span>
+<span></span>
+<span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ImmuPop_timet_est.html">ImmuPop_timet_est</a></span><span class="op">(</span></span>
+<span>  df <span class="op">=</span> <span class="va">data_example_t</span>,</span>
+<span>  protect_c <span class="op">=</span> <span class="va">protect_c</span>,</span>
+<span>  protect_a <span class="op">=</span> <span class="va">protect_a</span>,</span>
+<span>  age_prop <span class="op">=</span> <span class="va">age_prop</span>,</span>
+<span>  contact_matrix <span class="op">=</span> <span class="va">contact_matrix</span>,</span>
+<span>  sim_num <span class="op">=</span> <span class="fl">100</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">result</span>, caption <span class="op">=</span> <span class="st">"Estimation at time 200"</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">estimator</th>
+<th align="right">value</th>
+<th align="right">CI_lwr</th>
+<th align="right">CI_upr</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">0.219</td>
+<td align="right">0.180</td>
+<td align="right">0.367</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">0.231</td>
+<td align="right">0.209</td>
+<td align="right">0.408</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">7.300</td>
+<td align="right">1.970</td>
+<td align="right">11.105</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.610</td>
+</tr>
+</tbody>
+</table>
+<p>Estimation at time 200</p>
+</div>
+<div class="section level3">
+<h3 id="estimating-immunity-across-all-time-points">Estimating Immunity Across All Time Points<a class="anchor" aria-label="anchor" href="#estimating-immunity-across-all-time-points"></a>
+</h3>
+<p>To obtain immunity estimates for all time points:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">est_res_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ImmuPop_allt_est.html">ImmuPop_allt_est</a></span><span class="op">(</span><span class="va">data_example</span>, <span class="va">protect_c</span>, <span class="va">protect_a</span>, <span class="va">age_prop</span>, <span class="va">contact_matrix</span>, sim_num <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">est_res_all</span>, caption <span class="op">=</span> <span class="st">"Estimation at each time point"</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">estimator</th>
+<th align="right">time</th>
+<th align="right">value</th>
+<th align="right">CI_lwr</th>
+<th align="right">CI_upr</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">100</td>
+<td align="right">5.000</td>
+<td align="right">1.695</td>
+<td align="right">7.705</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">150</td>
+<td align="right">40.800</td>
+<td align="right">8.285</td>
+<td align="right">71.030</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">200</td>
+<td align="right">7.400</td>
+<td align="right">2.600</td>
+<td align="right">12.010</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">250</td>
+<td align="right">62.700</td>
+<td align="right">15.910</td>
+<td align="right">96.815</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">100</td>
+<td align="right">0.186</td>
+<td align="right">0.179</td>
+<td align="right">0.390</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">150</td>
+<td align="right">0.433</td>
+<td align="right">0.346</td>
+<td align="right">0.544</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">200</td>
+<td align="right">0.229</td>
+<td align="right">0.209</td>
+<td align="right">0.389</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">250</td>
+<td align="right">0.538</td>
+<td align="right">0.481</td>
+<td align="right">0.646</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">100</td>
+<td align="right">0.180</td>
+<td align="right">0.160</td>
+<td align="right">0.383</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">150</td>
+<td align="right">0.441</td>
+<td align="right">0.342</td>
+<td align="right">0.542</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">200</td>
+<td align="right">0.220</td>
+<td align="right">0.177</td>
+<td align="right">0.373</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">250</td>
+<td align="right">0.539</td>
+<td align="right">0.489</td>
+<td align="right">0.651</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">100</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.400</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">150</td>
+<td align="right">0.800</td>
+<td align="right">0.200</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">200</td>
+<td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">250</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+</tbody>
+</table>
+<p>Estimation at each time point</p>
+</div>
+<div class="section level3">
+<h3 id="estimating-baseline-immunity-pre-epidemic">Estimating Baseline Immunity (Pre-Epidemic)<a class="anchor" aria-label="anchor" href="#estimating-baseline-immunity-pre-epidemic"></a>
+</h3>
+<p>To obtain estimators for the baseline period (pre-epidemic) for each epidemic:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">df_long_bsl</span> <span class="op">&lt;-</span> <span class="va">data_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">bsl</span> <span class="op">==</span> <span class="st">"yes"</span><span class="op">)</span></span>
+<span><span class="va">est_res_bsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ImmuPop_bsl_est.html">ImmuPop_bsl_est</a></span><span class="op">(</span><span class="va">df_long_bsl</span>, <span class="va">protect_c</span>, <span class="va">protect_a</span>, <span class="va">age_prop</span>, <span class="va">contact_matrix</span>, sim_num <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">est_res_bsl</span>, caption <span class="op">=</span> <span class="st">"Estimation at each time point"</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">estimator</th>
+<th align="right">epi</th>
+<th align="right">value</th>
+<th align="right">CI_lwr</th>
+<th align="right">CI_upr</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">1.1</td>
+<td align="left">GMT</td>
+<td align="right">1</td>
+<td align="right">5.000</td>
+<td align="right">2.400</td>
+<td align="right">8.010</td>
+</tr>
+<tr class="even">
+<td align="left">2.1</td>
+<td align="left">GMT</td>
+<td align="right">2</td>
+<td align="right">7.800</td>
+<td align="right">2.885</td>
+<td align="right">12.010</td>
+</tr>
+<tr class="odd">
+<td align="left">1.2</td>
+<td align="left">RR_R0</td>
+<td align="right">1</td>
+<td align="right">0.190</td>
+<td align="right">0.179</td>
+<td align="right">0.387</td>
+</tr>
+<tr class="even">
+<td align="left">2.2</td>
+<td align="left">RR_R0</td>
+<td align="right">2</td>
+<td align="right">0.233</td>
+<td align="right">0.203</td>
+<td align="right">0.404</td>
+</tr>
+<tr class="odd">
+<td align="left">1.3</td>
+<td align="left">pop_immun</td>
+<td align="right">1</td>
+<td align="right">0.181</td>
+<td align="right">0.159</td>
+<td align="right">0.356</td>
+</tr>
+<tr class="even">
+<td align="left">2.3</td>
+<td align="left">pop_immun</td>
+<td align="right">2</td>
+<td align="right">0.220</td>
+<td align="right">0.178</td>
+<td align="right">0.374</td>
+</tr>
+<tr class="odd">
+<td align="left">1.4</td>
+<td align="left">prop_5</td>
+<td align="right">1</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">0.400</td>
+</tr>
+<tr class="even">
+<td align="left">2.4</td>
+<td align="left">prop_5</td>
+<td align="right">2</td>
+<td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.800</td>
+</tr>
+</tbody>
+</table>
+<p>Estimation at each time point</p>
+<p>This package provides powerful tools for estimating immunity, reduction in R0, and understanding the impact of vaccines or infections in different population groups.</p>
+<hr>
+</div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
@@ -108,7 +655,6 @@
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
 <li><a href="https://github.com/wjxiong5633/ImmuPop/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/wjxiong5633/ImmuPop/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://app.codecov.io/gh/wjxiong5633/ImmuPop" class="external-link"><img src="https://codecov.io/gh/wjxiong5633/ImmuPop/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
 
