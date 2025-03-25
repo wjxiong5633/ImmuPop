@@ -12,10 +12,10 @@
 metrics from individual serology data. The package provides the
 following estimators:
 
--   **Geometric Mean Titer (GMT)**
--   **Proportion of Non-Naïve Individuals**
--   **Proportion of Population Immune**
--   **Relative Reduction in Reproductive Number (R0)**
+- **Geometric Mean Titer (GMT)**
+- **Proportion of Non-Naïve Individuals**
+- **Proportion of Population Immune**
+- **Relative Reduction in Reproductive Number (R0)**
 
 These estimators help assess population immunity and predict the impact
 of infectious diseases.
@@ -116,12 +116,12 @@ contact_matrix <- matrix(
 #### Protection Effects
 
 Define protection effects for children and adults based on **HAI titer
-levels**:
+levels** (e.g. 40% HI associated with 50% protection):
 
 ``` r
-# Maximum observed titer level should match the vector length
-protect_c <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
-protect_a <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
+#each item of vector represent the protection of each titer level (e.g. 1-10 titer level)
+protect_c <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
+protect_a <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
 ```
 
 ------------------------------------------------------------------------
@@ -149,10 +149,10 @@ knitr::kable(result, digits = 3, row.names = F)
 
 | estimator | value | CI_lwr | CI_upr |
 |:----------|------:|-------:|-------:|
-| pop_immun | 0.220 |  0.180 |  0.431 |
-| RR_R0     | 0.229 |  0.208 |  0.373 |
-| GMT       | 7.400 |  2.295 | 11.505 |
-| prop_5    | 0.400 |  0.000 |  0.400 |
+| pop_immun | 0.220 |  0.180 |  0.367 |
+| RR_R0     | 0.232 |  0.219 |  0.335 |
+| GMT       | 7.200 |  1.695 | 10.600 |
+| prop_5    | 0.400 |  0.000 |  0.800 |
 
 ### Estimating Immunity Across All Time Points
 
@@ -173,21 +173,21 @@ knitr::kable(est_res_all, digits = 3, row.names = F)
 
 | estimator | time |  value | CI_lwr | CI_upr |
 |:----------|-----:|-------:|-------:|-------:|
-| GMT       |  100 |  5.000 |  1.800 |  7.905 |
-| GMT       |  150 | 44.400 |  7.475 | 70.220 |
-| GMT       |  200 |  7.200 |  2.495 | 11.400 |
-| GMT       |  250 | 55.600 | 17.285 | 93.035 |
-| RR_R0     |  100 |  0.190 |  0.178 |  0.347 |
-| RR_R0     |  150 |  0.433 |  0.390 |  0.590 |
-| RR_R0     |  200 |  0.227 |  0.217 |  0.368 |
-| RR_R0     |  250 |  0.538 |  0.440 |  0.573 |
-| pop_immun |  100 |  0.181 |  0.160 |  0.328 |
-| pop_immun |  150 |  0.440 |  0.375 |  0.546 |
-| pop_immun |  200 |  0.220 |  0.180 |  0.362 |
-| pop_immun |  250 |  0.536 |  0.431 |  0.576 |
+| GMT       |  100 |  4.800 |  2.200 |  7.705 |
+| GMT       |  150 | 42.100 |  8.190 | 73.210 |
+| GMT       |  200 |  6.500 |  2.295 | 11.505 |
+| GMT       |  250 | 56.200 | 19.360 | 92.440 |
+| RR_R0     |  100 |  0.186 |  0.177 |  0.361 |
+| RR_R0     |  150 |  0.451 |  0.391 |  0.555 |
+| RR_R0     |  200 |  0.228 |  0.206 |  0.358 |
+| RR_R0     |  250 |  0.569 |  0.514 |  0.606 |
+| pop_immun |  100 |  0.181 |  0.156 |  0.377 |
+| pop_immun |  150 |  0.463 |  0.380 |  0.540 |
+| pop_immun |  200 |  0.217 |  0.180 |  0.364 |
+| pop_immun |  250 |  0.570 |  0.531 |  0.611 |
 | prop_5    |  100 |  0.000 |  0.000 |  0.400 |
-| prop_5    |  150 |  0.600 |  0.200 |  1.000 |
-| prop_5    |  200 |  0.400 |  0.000 |  0.800 |
+| prop_5    |  150 |  0.600 |  0.400 |  1.000 |
+| prop_5    |  200 |  0.400 |  0.000 |  0.400 |
 | prop_5    |  250 |  1.000 |  0.600 |  1.000 |
 
 ### Estimating Baseline Population Immunity (Pre-Epidemic)
@@ -211,11 +211,11 @@ knitr::kable(est_res_bsl, digits = 3, row.names = F)
 
 | estimator | epi | value | CI_lwr | CI_upr |
 |:----------|----:|------:|-------:|-------:|
-| GMT       |   1 | 4.800 |  1.895 |  8.400 |
-| GMT       |   2 | 6.600 |  1.990 | 11.800 |
-| RR_R0     |   1 | 0.187 |  0.180 |  0.309 |
-| RR_R0     |   2 | 0.228 |  0.206 |  0.392 |
-| pop_immun |   1 | 0.180 |  0.160 |  0.290 |
-| pop_immun |   2 | 0.216 |  0.174 |  0.426 |
+| GMT       |   1 | 5.100 |  1.895 |  8.105 |
+| GMT       |   2 | 7.500 |  3.095 | 12.115 |
+| RR_R0     |   1 | 0.188 |  0.181 |  0.315 |
+| RR_R0     |   2 | 0.231 |  0.222 |  0.351 |
+| pop_immun |   1 | 0.180 |  0.160 |  0.295 |
+| pop_immun |   2 | 0.217 |  0.180 |  0.353 |
 | prop_5    |   1 | 0.000 |  0.000 |  0.400 |
-| prop_5    |   2 | 0.400 |  0.000 |  0.610 |
+| prop_5    |   2 | 0.400 |  0.000 |  0.800 |

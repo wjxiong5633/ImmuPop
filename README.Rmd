@@ -32,7 +32,7 @@ These estimators help assess population immunity and predict the impact of infec
 
 You can install the development version of **ImmuPop** from GitHub:
 
-```{r message=FALSE, warning=FALSE}
+```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
 # install.packages("devtools")
 devtools::install_github("wjxiong5633/ImmuPop")
 ```
@@ -91,12 +91,12 @@ contact_matrix <- matrix(
 
 #### Protection Effects
 
-Define protection effects for children and adults based on **HAI titer levels**:
+Define protection effects for children and adults based on **HAI titer levels** (e.g. 40% HI associated with 50% protection):
 
 ```{r}
-# Maximum observed titer level should match the vector length
-protect_c <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
-protect_a <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
+#each item of vector represent the protection of each titer level (e.g. 1-10 titer level)
+protect_c <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
+protect_a <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
 ```
 
 ---
