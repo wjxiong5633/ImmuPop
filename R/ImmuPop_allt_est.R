@@ -16,7 +16,7 @@
 # Global variables are defined after the function header
 utils::globalVariables(c("time", "estimator", "CI_lwr", "CI_upr", "epi", "value"))
 
-ImmuPop_allt_est <- function(df_long, protect_c, protect_a, agep_prop, contact_matrix, sim_num = 500) {
+ImmuPop_allt_est <- function(df_long, protect_c, protect_a, age_prop, contact_matrix, sim_num = 500) {
   time_vec <- unique(df_long$time)
 
   # Loop through each time point
@@ -26,7 +26,7 @@ ImmuPop_allt_est <- function(df_long, protect_c, protect_a, agep_prop, contact_m
     # Estimate immunity at each time point
     result_t <- ImmuPop_timet_est(df,
       protect_c = protect_c, protect_a = protect_a,
-      age_prop = agep_prop, contact_matrix = contact_matrix,
+      age_prop = age_prop, contact_matrix = contact_matrix,
       sim_num = sim_num
     ) %>%
       mutate(time = t)
