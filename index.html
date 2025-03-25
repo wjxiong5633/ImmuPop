@@ -11,8 +11,8 @@
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Estimating Population Immunity Using Individual Antibody Titers">
-<meta name="description" content="This package provides functions to estimate population immunity against influenza using individual antibody titers.">
-<meta property="og:description" content="This package provides functions to estimate population immunity against influenza using individual antibody titers.">
+<meta name="description" content="This package provides functions to estimate population immunity using individual antibody titers.">
+<meta property="og:description" content="This package provides functions to estimate population immunity using individual antibody titers.">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -359,11 +359,11 @@
 <div class="section level4">
 <h4 id="protection-effects">Protection Effects<a class="anchor" aria-label="anchor" href="#protection-effects"></a>
 </h4>
-<p>Define protection effects for children and adults based on <strong>HAI titer levels</strong>:</p>
+<p>Define protection effects for children and adults based on <strong>HAI titer levels</strong> (e.g. 40% HI associated with 50% protection):</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Maximum observed titer level should match the vector length</span></span>
-<span><span class="va">protect_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span><span class="op">)</span></span>
-<span><span class="va">protect_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.4</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co">#each item of vector represent the protection of each titer level (e.g. 1-10 titer level)</span></span>
+<span><span class="va">protect_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.75</span>, <span class="fl">0.8</span><span class="op">)</span></span>
+<span><span class="va">protect_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.75</span>, <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -400,25 +400,25 @@
 <td align="left">pop_immun</td>
 <td align="right">0.220</td>
 <td align="right">0.180</td>
-<td align="right">0.431</td>
+<td align="right">0.367</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
-<td align="right">0.229</td>
-<td align="right">0.208</td>
-<td align="right">0.373</td>
+<td align="right">0.232</td>
+<td align="right">0.219</td>
+<td align="right">0.335</td>
 </tr>
 <tr class="odd">
 <td align="left">GMT</td>
-<td align="right">7.400</td>
-<td align="right">2.295</td>
-<td align="right">11.505</td>
+<td align="right">7.200</td>
+<td align="right">1.695</td>
+<td align="right">10.600</td>
 </tr>
 <tr class="even">
 <td align="left">prop_5</td>
 <td align="right">0.400</td>
 <td align="right">0.000</td>
-<td align="right">0.400</td>
+<td align="right">0.800</td>
 </tr>
 </tbody>
 </table>
@@ -450,86 +450,86 @@
 <tr class="odd">
 <td align="left">GMT</td>
 <td align="right">100</td>
-<td align="right">5.000</td>
-<td align="right">1.800</td>
-<td align="right">7.905</td>
+<td align="right">4.800</td>
+<td align="right">2.200</td>
+<td align="right">7.705</td>
 </tr>
 <tr class="even">
 <td align="left">GMT</td>
 <td align="right">150</td>
-<td align="right">44.400</td>
-<td align="right">7.475</td>
-<td align="right">70.220</td>
+<td align="right">42.100</td>
+<td align="right">8.190</td>
+<td align="right">73.210</td>
 </tr>
 <tr class="odd">
 <td align="left">GMT</td>
 <td align="right">200</td>
-<td align="right">7.200</td>
-<td align="right">2.495</td>
-<td align="right">11.400</td>
+<td align="right">6.500</td>
+<td align="right">2.295</td>
+<td align="right">11.505</td>
 </tr>
 <tr class="even">
 <td align="left">GMT</td>
 <td align="right">250</td>
-<td align="right">55.600</td>
-<td align="right">17.285</td>
-<td align="right">93.035</td>
+<td align="right">56.200</td>
+<td align="right">19.360</td>
+<td align="right">92.440</td>
 </tr>
 <tr class="odd">
 <td align="left">RR_R0</td>
 <td align="right">100</td>
-<td align="right">0.190</td>
-<td align="right">0.178</td>
-<td align="right">0.347</td>
+<td align="right">0.186</td>
+<td align="right">0.177</td>
+<td align="right">0.361</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
 <td align="right">150</td>
-<td align="right">0.433</td>
-<td align="right">0.390</td>
-<td align="right">0.590</td>
+<td align="right">0.451</td>
+<td align="right">0.391</td>
+<td align="right">0.555</td>
 </tr>
 <tr class="odd">
 <td align="left">RR_R0</td>
 <td align="right">200</td>
-<td align="right">0.227</td>
-<td align="right">0.217</td>
-<td align="right">0.368</td>
+<td align="right">0.228</td>
+<td align="right">0.206</td>
+<td align="right">0.358</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
 <td align="right">250</td>
-<td align="right">0.538</td>
-<td align="right">0.440</td>
-<td align="right">0.573</td>
+<td align="right">0.569</td>
+<td align="right">0.514</td>
+<td align="right">0.606</td>
 </tr>
 <tr class="odd">
 <td align="left">pop_immun</td>
 <td align="right">100</td>
 <td align="right">0.181</td>
-<td align="right">0.160</td>
-<td align="right">0.328</td>
+<td align="right">0.156</td>
+<td align="right">0.377</td>
 </tr>
 <tr class="even">
 <td align="left">pop_immun</td>
 <td align="right">150</td>
-<td align="right">0.440</td>
-<td align="right">0.375</td>
-<td align="right">0.546</td>
+<td align="right">0.463</td>
+<td align="right">0.380</td>
+<td align="right">0.540</td>
 </tr>
 <tr class="odd">
 <td align="left">pop_immun</td>
 <td align="right">200</td>
-<td align="right">0.220</td>
+<td align="right">0.217</td>
 <td align="right">0.180</td>
-<td align="right">0.362</td>
+<td align="right">0.364</td>
 </tr>
 <tr class="even">
 <td align="left">pop_immun</td>
 <td align="right">250</td>
-<td align="right">0.536</td>
-<td align="right">0.431</td>
-<td align="right">0.576</td>
+<td align="right">0.570</td>
+<td align="right">0.531</td>
+<td align="right">0.611</td>
 </tr>
 <tr class="odd">
 <td align="left">prop_5</td>
@@ -542,7 +542,7 @@
 <td align="left">prop_5</td>
 <td align="right">150</td>
 <td align="right">0.600</td>
-<td align="right">0.200</td>
+<td align="right">0.400</td>
 <td align="right">1.000</td>
 </tr>
 <tr class="odd">
@@ -550,7 +550,7 @@
 <td align="right">200</td>
 <td align="right">0.400</td>
 <td align="right">0.000</td>
-<td align="right">0.800</td>
+<td align="right">0.400</td>
 </tr>
 <tr class="even">
 <td align="left">prop_5</td>
@@ -591,44 +591,44 @@
 <tr class="odd">
 <td align="left">GMT</td>
 <td align="right">1</td>
-<td align="right">4.800</td>
+<td align="right">5.100</td>
 <td align="right">1.895</td>
-<td align="right">8.400</td>
+<td align="right">8.105</td>
 </tr>
 <tr class="even">
 <td align="left">GMT</td>
 <td align="right">2</td>
-<td align="right">6.600</td>
-<td align="right">1.990</td>
-<td align="right">11.800</td>
+<td align="right">7.500</td>
+<td align="right">3.095</td>
+<td align="right">12.115</td>
 </tr>
 <tr class="odd">
 <td align="left">RR_R0</td>
 <td align="right">1</td>
-<td align="right">0.187</td>
-<td align="right">0.180</td>
-<td align="right">0.309</td>
+<td align="right">0.188</td>
+<td align="right">0.181</td>
+<td align="right">0.315</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
 <td align="right">2</td>
-<td align="right">0.228</td>
-<td align="right">0.206</td>
-<td align="right">0.392</td>
+<td align="right">0.231</td>
+<td align="right">0.222</td>
+<td align="right">0.351</td>
 </tr>
 <tr class="odd">
 <td align="left">pop_immun</td>
 <td align="right">1</td>
 <td align="right">0.180</td>
 <td align="right">0.160</td>
-<td align="right">0.290</td>
+<td align="right">0.295</td>
 </tr>
 <tr class="even">
 <td align="left">pop_immun</td>
 <td align="right">2</td>
-<td align="right">0.216</td>
-<td align="right">0.174</td>
-<td align="right">0.426</td>
+<td align="right">0.217</td>
+<td align="right">0.180</td>
+<td align="right">0.353</td>
 </tr>
 <tr class="odd">
 <td align="left">prop_5</td>
@@ -642,7 +642,7 @@
 <td align="right">2</td>
 <td align="right">0.400</td>
 <td align="right">0.000</td>
-<td align="right">0.610</td>
+<td align="right">0.800</td>
 </tr>
 </tbody>
 </table>
