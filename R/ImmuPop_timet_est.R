@@ -52,15 +52,14 @@ ImmuPop_timet_est <- function(df, protect_c, protect_a, age_prop, contact_matrix
 
   # Perform bootstrap sampling and calculate weighted GMT and proportion of HI > 5
   bootstrap_res <- replicate(sim_num, {
-    resampled_list <- lapply(unique(df$agegp1), function(myagegp) {
+    resampled_list <- sapply(sort(unique(df$agegp1)), function(myagegp) {
       agegp1_titer <- df$raw_titer[df$agegp1 == myagegp]
       sample(agegp1_titer, size = length(agegp1_titer), replace = TRUE)
     })
 
-    resampled_df <- data.frame(
-      raw_titer = unlist(resampled_list),
-      agegp1 = rep(unique(df$agegp1), as.numeric(table(df$agegp1)))
-    )
+    # Reshape the sampled df back into the original df frame structure
+    resampled_df <- data.frame(raw_titer = unlist(resampled_list),
+                               agegp1 = rep(sort(unique(df$agegp1)), as.numeric(table(df$agegp1))))
 
     gmt_value <- weighted_gmt(resampled_df, age_prop)
     prop_morethan5_value <- weighted_prop_HImorethan5(resampled_df, age_prop)
