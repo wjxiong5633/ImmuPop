@@ -46,6 +46,10 @@
 #' # Print the result
 #' print(result)
 ImmuPop_timet_est <- function(df, protect_c, protect_a, age_prop, contact_matrix, sim_num = 500) {
+  if (!requireNamespace("MCMCpack", quietly = TRUE)) {
+    stop("This function requires the 'MCMCpack' package. Please install it manually.")
+  }
+
   # Perform bootstrap sampling and calculate weighted GMT and proportion of HI > 5
   bootstrap_res <- replicate(sim_num, {
     resampled_list <- lapply(unique(df$agegp1), function(myagegp) {

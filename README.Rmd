@@ -16,9 +16,8 @@ knitr::opts_chunk$set(
 # ImmuPop
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/wjxiong5633/ImmuPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmuPop/actions/workflows/R-CMD-check.yaml)
-[![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop)
+<!-- [![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml) -->
+<!-- [![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop) -->
 <!-- badges: end -->
 
 **ImmuPop** is an R package designed to estimate key population immunity metrics from individual serology data. The package provides the following estimators:
@@ -91,7 +90,13 @@ contact_matrix <- matrix(
 )
 ```
 
+Or can use **socialmixr** package to generate a contact matrix:
 
+```{r}
+library(socialmixr)
+data(polymod)
+contact_matrix(polymod, countries = "United Kingdom", age.limits = c(0, 1, 5, 15))
+```
 
 #### Protection Effects
 
