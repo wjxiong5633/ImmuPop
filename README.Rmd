@@ -170,7 +170,6 @@ est_res_bsl <- ImmuPop_bsl_est(
 knitr::kable(est_res_bsl, digits = 3, row.names = F)
 ```
 
----
 
 ## Citation
 To cite package **ImmuPop** in publications use:
