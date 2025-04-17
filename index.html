@@ -50,7 +50,7 @@
 <!-- badges: start -->
 <!-- [![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml) -->
 <!-- [![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop) -->
-<!-- badges: end -->
+
 <p><strong>ImmuPop</strong> is an R package designed to estimate key population immunity metrics from individual serology data. The package provides the following estimators:</p>
 <ul>
 <li><strong>Geometric Mean Titer (GMT)</strong></li>
@@ -65,7 +65,17 @@
 <p>You can install the development version of <strong>ImmuPop</strong> from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"wjxiong5633/ImmuPop"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"wjxiong5633/ImmuPop"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; ── R CMD build ─────────────────────────────────────────────────────────────────</span></span>
+<span><span class="co">#&gt;          checking for file 'C:\Users\Weijia\AppData\Local\Temp\Rtmp6h2ugK\remotes464417ca1cc8\wjxiong5633-ImmuPop-4a5656c/DESCRIPTION' ...     checking for file 'C:\Users\Weijia\AppData\Local\Temp\Rtmp6h2ugK\remotes464417ca1cc8\wjxiong5633-ImmuPop-4a5656c/DESCRIPTION' ...   ✔  checking for file 'C:\Users\Weijia\AppData\Local\Temp\Rtmp6h2ugK\remotes464417ca1cc8\wjxiong5633-ImmuPop-4a5656c/DESCRIPTION'</span></span>
+<span><span class="co">#&gt;       ─  preparing 'ImmuPop':</span></span>
+<span><span class="co">#&gt;    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information</span></span>
+<span><span class="co">#&gt;       ─  checking for LF line-endings in source and make files and shell scripts</span></span>
+<span><span class="co">#&gt;   ─  checking for empty or unneeded directories</span></span>
+<span><span class="co">#&gt;   ─  building 'ImmuPop_0.1.0.tar.gz'</span></span>
+<span><span class="co">#&gt;      </span></span>
+<span><span class="co">#&gt; </span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example-usage">Example Usage<a class="anchor" aria-label="anchor" href="#example-usage"></a>
@@ -86,112 +96,96 @@
 <p>The package includes example data (<code>ImmuPop_raw_data</code>), which contains columns such as <code>time</code>, <code>epi</code>, <code>bsl</code>, <code>age</code>, and <code>raw_titer</code>.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ImmuPop_raw_data"</span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">ImmuPop_raw_data</span>, digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ImmuPop_raw_data</span>, <span class="fl">10</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="right">time</th>
-<th align="right">epi</th>
 <th align="left">bsl</th>
-<th align="right">raw_titer</th>
+<th align="right">epi</th>
 <th align="right">age</th>
+<th align="right">time</th>
+<th align="right">raw_titer</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="right">1001</td>
-<td align="right">100</td>
-<td align="right">1</td>
 <td align="left">yes</td>
-<td align="right">5</td>
+<td align="right">1</td>
+<td align="right">31</td>
+<td align="right">28</td>
 <td align="right">10</td>
 </tr>
 <tr class="even">
 <td align="right">1001</td>
-<td align="right">150</td>
-<td align="right">1</td>
 <td align="left">no</td>
-<td align="right">40</td>
-<td align="right">10</td>
-</tr>
-<tr class="odd">
-<td align="right">1002</td>
-<td align="right">100</td>
 <td align="right">1</td>
-<td align="left">yes</td>
-<td align="right">10</td>
-<td align="right">25</td>
-</tr>
-<tr class="even">
-<td align="right">1002</td>
-<td align="right">150</td>
-<td align="right">1</td>
-<td align="left">no</td>
+<td align="right">31</td>
+<td align="right">308</td>
 <td align="right">160</td>
-<td align="right">25</td>
 </tr>
 <tr class="odd">
-<td align="right">1003</td>
-<td align="right">100</td>
-<td align="right">1</td>
+<td align="right">1002</td>
 <td align="left">yes</td>
-<td align="right">10</td>
-<td align="right">55</td>
-</tr>
-<tr class="even">
-<td align="right">1003</td>
-<td align="right">150</td>
 <td align="right">1</td>
-<td align="left">no</td>
-<td align="right">20</td>
-<td align="right">55</td>
-</tr>
-<tr class="odd">
-<td align="right">1004</td>
-<td align="right">200</td>
-<td align="right">2</td>
-<td align="left">yes</td>
+<td align="right">79</td>
+<td align="right">50</td>
 <td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="right">1002</td>
+<td align="left">no</td>
+<td align="right">1</td>
+<td align="right">79</td>
+<td align="right">300</td>
+<td align="right">320</td>
+</tr>
+<tr class="odd">
+<td align="right">1003</td>
+<td align="left">yes</td>
+<td align="right">1</td>
+<td align="right">51</td>
+<td align="right">47</td>
+<td align="right">20</td>
+</tr>
+<tr class="even">
+<td align="right">1003</td>
+<td align="left">no</td>
+<td align="right">1</td>
+<td align="right">51</td>
+<td align="right">340</td>
+<td align="right">160</td>
+</tr>
+<tr class="odd">
+<td align="right">1004</td>
+<td align="left">yes</td>
+<td align="right">1</td>
 <td align="right">14</td>
+<td align="right">16</td>
+<td align="right">5</td>
 </tr>
 <tr class="even">
 <td align="right">1004</td>
-<td align="right">250</td>
-<td align="right">2</td>
 <td align="left">no</td>
-<td align="right">80</td>
+<td align="right">1</td>
 <td align="right">14</td>
+<td align="right">338</td>
+<td align="right">320</td>
 </tr>
 <tr class="odd">
 <td align="right">1005</td>
-<td align="right">200</td>
-<td align="right">2</td>
 <td align="left">yes</td>
-<td align="right">10</td>
+<td align="right">1</td>
+<td align="right">67</td>
+<td align="right">19</td>
 <td align="right">40</td>
 </tr>
 <tr class="even">
 <td align="right">1005</td>
-<td align="right">250</td>
-<td align="right">2</td>
 <td align="left">no</td>
-<td align="right">160</td>
-<td align="right">40</td>
-</tr>
-<tr class="odd">
-<td align="right">1006</td>
-<td align="right">200</td>
-<td align="right">2</td>
-<td align="left">yes</td>
-<td align="right">20</td>
-<td align="right">64</td>
-</tr>
-<tr class="even">
-<td align="right">1006</td>
-<td align="right">250</td>
-<td align="right">2</td>
-<td align="left">no</td>
+<td align="right">1</td>
+<td align="right">67</td>
+<td align="right">343</td>
 <td align="right">80</td>
-<td align="right">64</td>
 </tr>
 </tbody>
 </table>
@@ -202,136 +196,116 @@
 <p>Use the <code><a href="reference/generate_data.html">generate_data()</a></code> function to preprocess raw data and categorize age groups:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">data_example</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/generate_data.html">generate_data</a></span><span class="op">(</span><span class="va">ImmuPop_raw_data</span>, cut_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">18</span>, <span class="fl">50</span>, <span class="fl">100</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">data_example</span>, digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data_example</span>, <span class="fl">10</span><span class="op">)</span>, digits <span class="op">=</span> <span class="fl">3</span>, row.names <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="right">uid</th>
-<th align="right">time</th>
-<th align="right">epi</th>
 <th align="left">bsl</th>
-<th align="right">raw_titer</th>
+<th align="right">epi</th>
 <th align="right">age</th>
+<th align="right">time</th>
+<th align="right">raw_titer</th>
 <th align="left">agegp1</th>
 <th align="right">titer_level</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
 <td align="right">1001</td>
-<td align="right">100</td>
-<td align="right">1</td>
 <td align="left">yes</td>
-<td align="right">5</td>
-<td align="right">10</td>
-<td align="left">[0,18)</td>
 <td align="right">1</td>
+<td align="right">31</td>
+<td align="right">28</td>
+<td align="right">10</td>
+<td align="left">[18,50)</td>
+<td align="right">2</td>
 </tr>
 <tr class="even">
 <td align="right">1001</td>
-<td align="right">150</td>
-<td align="right">1</td>
 <td align="left">no</td>
-<td align="right">40</td>
-<td align="right">10</td>
+<td align="right">1</td>
+<td align="right">31</td>
+<td align="right">308</td>
+<td align="right">160</td>
+<td align="left">[18,50)</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="right">1002</td>
+<td align="left">yes</td>
+<td align="right">1</td>
+<td align="right">79</td>
+<td align="right">50</td>
+<td align="right">5</td>
+<td align="left">[50,100)</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">1002</td>
+<td align="left">no</td>
+<td align="right">1</td>
+<td align="right">79</td>
+<td align="right">300</td>
+<td align="right">320</td>
+<td align="left">[50,100)</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="right">1003</td>
+<td align="left">yes</td>
+<td align="right">1</td>
+<td align="right">51</td>
+<td align="right">47</td>
+<td align="right">20</td>
+<td align="left">[50,100)</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td align="right">1003</td>
+<td align="left">no</td>
+<td align="right">1</td>
+<td align="right">51</td>
+<td align="right">340</td>
+<td align="right">160</td>
+<td align="left">[50,100)</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="right">1004</td>
+<td align="left">yes</td>
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">16</td>
+<td align="right">5</td>
 <td align="left">[0,18)</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td align="right">1004</td>
+<td align="left">no</td>
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">338</td>
+<td align="right">320</td>
+<td align="left">[0,18)</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="right">1005</td>
+<td align="left">yes</td>
+<td align="right">1</td>
+<td align="right">67</td>
+<td align="right">19</td>
+<td align="right">40</td>
+<td align="left">[50,100)</td>
 <td align="right">4</td>
 </tr>
-<tr class="odd">
-<td align="right">1002</td>
-<td align="right">100</td>
-<td align="right">1</td>
-<td align="left">yes</td>
-<td align="right">10</td>
-<td align="right">25</td>
-<td align="left">[18,50)</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="right">1002</td>
-<td align="right">150</td>
-<td align="right">1</td>
-<td align="left">no</td>
-<td align="right">160</td>
-<td align="right">25</td>
-<td align="left">[18,50)</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="right">1003</td>
-<td align="right">100</td>
-<td align="right">1</td>
-<td align="left">yes</td>
-<td align="right">10</td>
-<td align="right">55</td>
-<td align="left">[50,100)</td>
-<td align="right">2</td>
-</tr>
-<tr class="even">
-<td align="right">1003</td>
-<td align="right">150</td>
-<td align="right">1</td>
-<td align="left">no</td>
-<td align="right">20</td>
-<td align="right">55</td>
-<td align="left">[50,100)</td>
-<td align="right">3</td>
-</tr>
-<tr class="odd">
-<td align="right">1004</td>
-<td align="right">200</td>
-<td align="right">2</td>
-<td align="left">yes</td>
-<td align="right">5</td>
-<td align="right">14</td>
-<td align="left">[0,18)</td>
-<td align="right">1</td>
-</tr>
-<tr class="even">
-<td align="right">1004</td>
-<td align="right">250</td>
-<td align="right">2</td>
-<td align="left">no</td>
-<td align="right">80</td>
-<td align="right">14</td>
-<td align="left">[0,18)</td>
-<td align="right">5</td>
-</tr>
-<tr class="odd">
-<td align="right">1005</td>
-<td align="right">200</td>
-<td align="right">2</td>
-<td align="left">yes</td>
-<td align="right">10</td>
-<td align="right">40</td>
-<td align="left">[18,50)</td>
-<td align="right">2</td>
-</tr>
 <tr class="even">
 <td align="right">1005</td>
-<td align="right">250</td>
-<td align="right">2</td>
 <td align="left">no</td>
-<td align="right">160</td>
-<td align="right">40</td>
-<td align="left">[18,50)</td>
-<td align="right">6</td>
-</tr>
-<tr class="odd">
-<td align="right">1006</td>
-<td align="right">200</td>
-<td align="right">2</td>
-<td align="left">yes</td>
-<td align="right">20</td>
-<td align="right">64</td>
-<td align="left">[50,100)</td>
-<td align="right">3</td>
-</tr>
-<tr class="even">
-<td align="right">1006</td>
-<td align="right">250</td>
-<td align="right">2</td>
-<td align="left">no</td>
+<td align="right">1</td>
+<td align="right">67</td>
+<td align="right">343</td>
 <td align="right">80</td>
-<td align="right">64</td>
 <td align="left">[50,100)</td>
 <td align="right">5</td>
 </tr>
@@ -385,8 +359,8 @@
 <p>Define protection effects for children and adults based on <strong>HAI titer levels</strong> (e.g. 40% HI associated with 50% protection):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># each item of vector represent the protection of each titer level (e.g. 1-10 titer level)</span></span>
-<span><span class="va">protect_c</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.75</span>, <span class="fl">0.8</span><span class="op">)</span></span>
-<span><span class="va">protect_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.75</span>, <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">protect_child</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.75</span>, <span class="fl">0.8</span><span class="op">)</span></span>
+<span><span class="va">protect_adult</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>, <span class="fl">0.55</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.75</span>, <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
 <hr>
 </div>
 </div>
@@ -397,14 +371,14 @@
 <div class="section level3">
 <h3 id="estimating-immunity-at-a-specific-time-point">Estimating Immunity at a Specific Time Point<a class="anchor" aria-label="anchor" href="#estimating-immunity-at-a-specific-time-point"></a>
 </h3>
-<p>To estimate immunity for a <strong>specific time point</strong> (e.g., <code>time = 200</code>):</p>
+<p>To estimate immunity for a <strong>specific time point</strong> (e.g., <code>time = 15</code>):</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">data_example_t</span> <span class="op">&lt;-</span> <span class="va">data_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">time</span> <span class="op">==</span> <span class="fl">200</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">data_example_t</span> <span class="op">&lt;-</span> <span class="va">data_example</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">time</span> <span class="op">==</span> <span class="fl">15</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">result</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ImmuPop_timet_est.html">ImmuPop_timet_est</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">data_example_t</span>,</span>
-<span>  protect_c <span class="op">=</span> <span class="va">protect_c</span>,</span>
-<span>  protect_a <span class="op">=</span> <span class="va">protect_a</span>,</span>
+<span>  protect_c <span class="op">=</span> <span class="va">protect_child</span>,</span>
+<span>  protect_a <span class="op">=</span> <span class="va">protect_adult</span>,</span>
 <span>  age_prop <span class="op">=</span> <span class="va">age_prop</span>,</span>
 <span>  contact_matrix <span class="op">=</span> <span class="va">contact_matrix</span>,</span>
 <span>  sim_num <span class="op">=</span> <span class="fl">100</span></span>
@@ -421,21 +395,21 @@
 <tbody>
 <tr class="odd">
 <td align="left">pop_immun</td>
-<td align="right">0.214</td>
-<td align="right">0.173</td>
-<td align="right">0.364</td>
+<td align="right">0.182</td>
+<td align="right">0.140</td>
+<td align="right">0.360</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
-<td align="right">0.231</td>
-<td align="right">0.199</td>
-<td align="right">0.369</td>
+<td align="right">0.189</td>
+<td align="right">0.173</td>
+<td align="right">0.371</td>
 </tr>
 <tr class="odd">
 <td align="left">GMT</td>
-<td align="right">7.000</td>
-<td align="right">2.200</td>
-<td align="right">11.305</td>
+<td align="right">6.200</td>
+<td align="right">2.495</td>
+<td align="right">10.505</td>
 </tr>
 <tr class="even">
 <td align="left">prop_5</td>
@@ -449,12 +423,12 @@
 <div class="section level3">
 <h3 id="estimating-immunity-across-all-time-points">Estimating Immunity Across All Time Points<a class="anchor" aria-label="anchor" href="#estimating-immunity-across-all-time-points"></a>
 </h3>
-<p>To estimate immunity across <strong>all time points</strong>:</p>
+<p>To estimate immunity across <strong>all time points</strong>, it will return the result of the time point that contains all age groups.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">est_res_all</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ImmuPop_allt_est.html">ImmuPop_allt_est</a></span><span class="op">(</span></span>
 <span>  df_long <span class="op">=</span> <span class="va">data_example</span>,</span>
-<span>  protect_c <span class="op">=</span> <span class="va">protect_c</span>,</span>
-<span>  protect_a <span class="op">=</span> <span class="va">protect_a</span>,</span>
+<span>  protect_c <span class="op">=</span> <span class="va">protect_child</span>,</span>
+<span>  protect_a <span class="op">=</span> <span class="va">protect_adult</span>,</span>
 <span>  age_prop <span class="op">=</span> <span class="va">age_prop</span>,</span>
 <span>  contact_matrix <span class="op">=</span> <span class="va">contact_matrix</span>,</span>
 <span>  sim_num <span class="op">=</span> <span class="fl">100</span></span>
@@ -472,114 +446,1290 @@
 <tbody>
 <tr class="odd">
 <td align="left">GMT</td>
-<td align="right">100</td>
-<td align="right">5.400</td>
-<td align="right">2.295</td>
-<td align="right">8.105</td>
+<td align="right">2</td>
+<td align="right">19.530</td>
+<td align="right">5.986</td>
+<td align="right">28.443</td>
 </tr>
 <tr class="even">
 <td align="left">GMT</td>
-<td align="right">150</td>
-<td align="right">39.700</td>
-<td align="right">9.180</td>
-<td align="right">72.620</td>
+<td align="right">3</td>
+<td align="right">13.495</td>
+<td align="right">6.733</td>
+<td align="right">26.979</td>
 </tr>
 <tr class="odd">
 <td align="left">GMT</td>
-<td align="right">200</td>
-<td align="right">6.600</td>
-<td align="right">2.790</td>
-<td align="right">11.210</td>
+<td align="right">6</td>
+<td align="right">17.914</td>
+<td align="right">12.000</td>
+<td align="right">26.020</td>
 </tr>
 <tr class="even">
 <td align="left">GMT</td>
-<td align="right">250</td>
-<td align="right">57.600</td>
-<td align="right">17.235</td>
-<td align="right">95.515</td>
+<td align="right">7</td>
+<td align="right">11.614</td>
+<td align="right">4.400</td>
+<td align="right">19.448</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">11</td>
+<td align="right">20.737</td>
+<td align="right">9.052</td>
+<td align="right">32.985</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">15</td>
+<td align="right">6.800</td>
+<td align="right">1.800</td>
+<td align="right">10.200</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">17</td>
+<td align="right">11.800</td>
+<td align="right">3.190</td>
+<td align="right">20.105</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">24</td>
+<td align="right">19.013</td>
+<td align="right">6.923</td>
+<td align="right">28.513</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">25</td>
+<td align="right">9.758</td>
+<td align="right">4.591</td>
+<td align="right">16.533</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">26</td>
+<td align="right">21.113</td>
+<td align="right">8.547</td>
+<td align="right">34.280</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">30</td>
+<td align="right">8.800</td>
+<td align="right">3.295</td>
+<td align="right">14.230</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">33</td>
+<td align="right">20.117</td>
+<td align="right">7.375</td>
+<td align="right">32.010</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">50</td>
+<td align="right">14.645</td>
+<td align="right">4.195</td>
+<td align="right">28.073</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">307</td>
+<td align="right">517.000</td>
+<td align="right">326.340</td>
+<td align="right">722.390</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">312</td>
+<td align="right">559.200</td>
+<td align="right">207.255</td>
+<td align="right">956.250</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">315</td>
+<td align="right">297.400</td>
+<td align="right">106.680</td>
+<td align="right">485.430</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">317</td>
+<td align="right">157.400</td>
+<td align="right">60.900</td>
+<td align="right">282.160</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">318</td>
+<td align="right">410.510</td>
+<td align="right">236.592</td>
+<td align="right">704.000</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">322</td>
+<td align="right">437.410</td>
+<td align="right">67.764</td>
+<td align="right">812.258</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">324</td>
+<td align="right">322.300</td>
+<td align="right">52.825</td>
+<td align="right">551.890</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">338</td>
+<td align="right">186.510</td>
+<td align="right">87.600</td>
+<td align="right">400.000</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">340</td>
+<td align="right">159.700</td>
+<td align="right">73.530</td>
+<td align="right">300.535</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">345</td>
+<td align="right">317.324</td>
+<td align="right">110.557</td>
+<td align="right">508.896</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">348</td>
+<td align="right">202.800</td>
+<td align="right">78.240</td>
+<td align="right">376.665</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">801</td>
+<td align="right">16.485</td>
+<td align="right">14.000</td>
+<td align="right">20.000</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">805</td>
+<td align="right">26.828</td>
+<td align="right">16.894</td>
+<td align="right">34.828</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">807</td>
+<td align="right">21.197</td>
+<td align="right">7.919</td>
+<td align="right">27.178</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">810</td>
+<td align="right">9.044</td>
+<td align="right">5.280</td>
+<td align="right">12.525</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">811</td>
+<td align="right">19.808</td>
+<td align="right">10.843</td>
+<td align="right">29.304</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">814</td>
+<td align="right">18.131</td>
+<td align="right">4.231</td>
+<td align="right">27.139</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">822</td>
+<td align="right">9.843</td>
+<td align="right">4.910</td>
+<td align="right">14.504</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">827</td>
+<td align="right">16.655</td>
+<td align="right">7.874</td>
+<td align="right">29.924</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">833</td>
+<td align="right">4.600</td>
+<td align="right">1.990</td>
+<td align="right">6.800</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">839</td>
+<td align="right">13.479</td>
+<td align="right">6.499</td>
+<td align="right">21.969</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">845</td>
+<td align="right">17.154</td>
+<td align="right">5.071</td>
+<td align="right">29.888</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">1016</td>
+<td align="right">625.215</td>
+<td align="right">166.499</td>
+<td align="right">976.559</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">1019</td>
+<td align="right">322.600</td>
+<td align="right">59.895</td>
+<td align="right">546.620</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">1020</td>
+<td align="right">158.200</td>
+<td align="right">39.290</td>
+<td align="right">392.480</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">1022</td>
+<td align="right">400.000</td>
+<td align="right">205.255</td>
+<td align="right">737.600</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">1025</td>
+<td align="right">119.500</td>
+<td align="right">38.965</td>
+<td align="right">209.305</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">1030</td>
+<td align="right">195.238</td>
+<td align="right">105.564</td>
+<td align="right">278.644</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">1032</td>
+<td align="right">186.600</td>
+<td align="right">47.190</td>
+<td align="right">366.220</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">1033</td>
+<td align="right">297.742</td>
+<td align="right">166.570</td>
+<td align="right">805.945</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">1037</td>
+<td align="right">225.870</td>
+<td align="right">139.022</td>
+<td align="right">327.737</td>
+</tr>
+<tr class="odd">
+<td align="left">GMT</td>
+<td align="right">1039</td>
+<td align="right">142.495</td>
+<td align="right">85.677</td>
+<td align="right">207.130</td>
+</tr>
+<tr class="even">
+<td align="left">GMT</td>
+<td align="right">1045</td>
+<td align="right">137.800</td>
+<td align="right">41.025</td>
+<td align="right">205.695</td>
 </tr>
 <tr class="odd">
 <td align="left">RR_R0</td>
-<td align="right">100</td>
-<td align="right">0.187</td>
-<td align="right">0.173</td>
-<td align="right">0.333</td>
+<td align="right">2</td>
+<td align="right">0.231</td>
+<td align="right">0.159</td>
+<td align="right">0.358</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
-<td align="right">150</td>
+<td align="right">3</td>
+<td align="right">0.312</td>
+<td align="right">0.256</td>
+<td align="right">0.377</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">6</td>
+<td align="right">0.307</td>
+<td align="right">0.257</td>
+<td align="right">0.414</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">7</td>
+<td align="right">0.280</td>
+<td align="right">0.241</td>
+<td align="right">0.362</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">11</td>
+<td align="right">0.384</td>
+<td align="right">0.323</td>
+<td align="right">0.476</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">15</td>
+<td align="right">0.179</td>
+<td align="right">0.176</td>
+<td align="right">0.323</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">17</td>
+<td align="right">0.330</td>
+<td align="right">0.311</td>
+<td align="right">0.425</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">24</td>
+<td align="right">0.359</td>
+<td align="right">0.299</td>
 <td align="right">0.451</td>
-<td align="right">0.388</td>
-<td align="right">0.587</td>
 </tr>
 <tr class="odd">
 <td align="left">RR_R0</td>
-<td align="right">200</td>
-<td align="right">0.228</td>
-<td align="right">0.223</td>
-<td align="right">0.370</td>
+<td align="right">25</td>
+<td align="right">0.259</td>
+<td align="right">0.214</td>
+<td align="right">0.402</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
-<td align="right">250</td>
-<td align="right">0.569</td>
-<td align="right">0.480</td>
+<td align="right">26</td>
+<td align="right">0.274</td>
+<td align="right">0.232</td>
+<td align="right">0.420</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">30</td>
+<td align="right">0.246</td>
+<td align="right">0.199</td>
+<td align="right">0.374</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">33</td>
+<td align="right">0.402</td>
+<td align="right">0.316</td>
+<td align="right">0.479</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">50</td>
+<td align="right">0.287</td>
+<td align="right">0.186</td>
+<td align="right">0.382</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">307</td>
+<td align="right">0.709</td>
 <td align="right">0.611</td>
+<td align="right">0.718</td>
 </tr>
 <tr class="odd">
-<td align="left">pop_immun</td>
-<td align="right">100</td>
-<td align="right">0.180</td>
-<td align="right">0.160</td>
-<td align="right">0.345</td>
+<td align="left">RR_R0</td>
+<td align="right">312</td>
+<td align="right">0.738</td>
+<td align="right">0.618</td>
+<td align="right">0.742</td>
 </tr>
 <tr class="even">
-<td align="left">pop_immun</td>
-<td align="right">150</td>
-<td align="right">0.464</td>
-<td align="right">0.368</td>
-<td align="right">0.577</td>
+<td align="left">RR_R0</td>
+<td align="right">315</td>
+<td align="right">0.683</td>
+<td align="right">0.553</td>
+<td align="right">0.704</td>
 </tr>
 <tr class="odd">
-<td align="left">pop_immun</td>
-<td align="right">200</td>
-<td align="right">0.215</td>
-<td align="right">0.180</td>
+<td align="left">RR_R0</td>
+<td align="right">317</td>
+<td align="right">0.626</td>
+<td align="right">0.498</td>
+<td align="right">0.658</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">318</td>
+<td align="right">0.646</td>
+<td align="right">0.618</td>
+<td align="right">0.677</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">322</td>
+<td align="right">0.621</td>
+<td align="right">0.531</td>
+<td align="right">0.672</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">324</td>
+<td align="right">0.653</td>
+<td align="right">0.540</td>
+<td align="right">0.673</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">338</td>
+<td align="right">0.609</td>
+<td align="right">0.556</td>
+<td align="right">0.654</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">340</td>
+<td align="right">0.608</td>
+<td align="right">0.475</td>
+<td align="right">0.639</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">345</td>
+<td align="right">0.654</td>
+<td align="right">0.588</td>
+<td align="right">0.683</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">348</td>
+<td align="right">0.677</td>
+<td align="right">0.534</td>
+<td align="right">0.691</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">801</td>
+<td align="right">0.281</td>
+<td align="right">0.249</td>
+<td align="right">0.351</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">805</td>
+<td align="right">0.336</td>
+<td align="right">0.274</td>
+<td align="right">0.437</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">807</td>
+<td align="right">0.269</td>
+<td align="right">0.217</td>
+<td align="right">0.415</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">810</td>
+<td align="right">0.208</td>
+<td align="right">0.155</td>
+<td align="right">0.317</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">811</td>
+<td align="right">0.308</td>
+<td align="right">0.273</td>
+<td align="right">0.433</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">814</td>
+<td align="right">0.269</td>
+<td align="right">0.169</td>
+<td align="right">0.366</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">822</td>
+<td align="right">0.313</td>
+<td align="right">0.277</td>
+<td align="right">0.377</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">827</td>
+<td align="right">0.242</td>
+<td align="right">0.183</td>
+<td align="right">0.334</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">833</td>
+<td align="right">0.209</td>
+<td align="right">0.186</td>
 <td align="right">0.353</td>
 </tr>
 <tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">839</td>
+<td align="right">0.337</td>
+<td align="right">0.291</td>
+<td align="right">0.421</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">845</td>
+<td align="right">0.394</td>
+<td align="right">0.307</td>
+<td align="right">0.459</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">1016</td>
+<td align="right">0.670</td>
+<td align="right">0.600</td>
+<td align="right">0.705</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">1019</td>
+<td align="right">0.653</td>
+<td align="right">0.507</td>
+<td align="right">0.682</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">1020</td>
+<td align="right">0.625</td>
+<td align="right">0.513</td>
+<td align="right">0.671</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">1022</td>
+<td align="right">0.642</td>
+<td align="right">0.598</td>
+<td align="right">0.670</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">1025</td>
+<td align="right">0.631</td>
+<td align="right">0.493</td>
+<td align="right">0.658</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">1030</td>
+<td align="right">0.617</td>
+<td align="right">0.543</td>
+<td align="right">0.638</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">1032</td>
+<td align="right">0.651</td>
+<td align="right">0.542</td>
+<td align="right">0.658</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">1033</td>
+<td align="right">0.674</td>
+<td align="right">0.615</td>
+<td align="right">0.701</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">1037</td>
+<td align="right">0.635</td>
+<td align="right">0.554</td>
+<td align="right">0.657</td>
+</tr>
+<tr class="odd">
+<td align="left">RR_R0</td>
+<td align="right">1039</td>
+<td align="right">0.603</td>
+<td align="right">0.514</td>
+<td align="right">0.620</td>
+</tr>
+<tr class="even">
+<td align="left">RR_R0</td>
+<td align="right">1045</td>
+<td align="right">0.643</td>
+<td align="right">0.560</td>
+<td align="right">0.668</td>
+</tr>
+<tr class="odd">
 <td align="left">pop_immun</td>
-<td align="right">250</td>
+<td align="right">2</td>
+<td align="right">0.222</td>
+<td align="right">0.165</td>
+<td align="right">0.393</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">3</td>
+<td align="right">0.293</td>
+<td align="right">0.245</td>
+<td align="right">0.387</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">6</td>
+<td align="right">0.313</td>
+<td align="right">0.257</td>
+<td align="right">0.416</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">7</td>
+<td align="right">0.269</td>
+<td align="right">0.186</td>
+<td align="right">0.384</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">11</td>
+<td align="right">0.367</td>
+<td align="right">0.282</td>
+<td align="right">0.480</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">15</td>
+<td align="right">0.180</td>
+<td align="right">0.140</td>
+<td align="right">0.328</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">17</td>
+<td align="right">0.320</td>
+<td align="right">0.259</td>
+<td align="right">0.410</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">24</td>
+<td align="right">0.326</td>
+<td align="right">0.235</td>
+<td align="right">0.459</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">25</td>
+<td align="right">0.252</td>
+<td align="right">0.193</td>
+<td align="right">0.425</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">26</td>
+<td align="right">0.288</td>
+<td align="right">0.227</td>
+<td align="right">0.424</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">30</td>
+<td align="right">0.245</td>
+<td align="right">0.184</td>
+<td align="right">0.370</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">33</td>
+<td align="right">0.392</td>
+<td align="right">0.312</td>
+<td align="right">0.490</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">50</td>
+<td align="right">0.286</td>
+<td align="right">0.202</td>
+<td align="right">0.383</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">307</td>
+<td align="right">0.710</td>
+<td align="right">0.632</td>
+<td align="right">0.722</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">312</td>
+<td align="right">0.729</td>
+<td align="right">0.617</td>
+<td align="right">0.740</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">315</td>
+<td align="right">0.679</td>
+<td align="right">0.582</td>
+<td align="right">0.707</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">317</td>
+<td align="right">0.631</td>
+<td align="right">0.516</td>
+<td align="right">0.664</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">318</td>
+<td align="right">0.654</td>
+<td align="right">0.620</td>
+<td align="right">0.691</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">322</td>
+<td align="right">0.616</td>
+<td align="right">0.522</td>
+<td align="right">0.662</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">324</td>
+<td align="right">0.631</td>
+<td align="right">0.502</td>
+<td align="right">0.680</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">338</td>
+<td align="right">0.605</td>
 <td align="right">0.569</td>
-<td align="right">0.496</td>
-<td align="right">0.612</td>
+<td align="right">0.649</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">340</td>
+<td align="right">0.598</td>
+<td align="right">0.477</td>
+<td align="right">0.635</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">345</td>
+<td align="right">0.646</td>
+<td align="right">0.575</td>
+<td align="right">0.677</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">348</td>
+<td align="right">0.664</td>
+<td align="right">0.523</td>
+<td align="right">0.684</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">801</td>
+<td align="right">0.276</td>
+<td align="right">0.237</td>
+<td align="right">0.354</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">805</td>
+<td align="right">0.348</td>
+<td align="right">0.275</td>
+<td align="right">0.456</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">807</td>
+<td align="right">0.251</td>
+<td align="right">0.190</td>
+<td align="right">0.401</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">810</td>
+<td align="right">0.224</td>
+<td align="right">0.177</td>
+<td align="right">0.324</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">811</td>
+<td align="right">0.349</td>
+<td align="right">0.285</td>
+<td align="right">0.437</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">814</td>
+<td align="right">0.250</td>
+<td align="right">0.174</td>
+<td align="right">0.371</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">822</td>
+<td align="right">0.287</td>
+<td align="right">0.205</td>
+<td align="right">0.382</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">827</td>
+<td align="right">0.266</td>
+<td align="right">0.189</td>
+<td align="right">0.355</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">833</td>
+<td align="right">0.192</td>
+<td align="right">0.140</td>
+<td align="right">0.329</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">839</td>
+<td align="right">0.308</td>
+<td align="right">0.236</td>
+<td align="right">0.385</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">845</td>
+<td align="right">0.375</td>
+<td align="right">0.278</td>
+<td align="right">0.455</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">1016</td>
+<td align="right">0.666</td>
+<td align="right">0.593</td>
+<td align="right">0.700</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">1019</td>
+<td align="right">0.638</td>
+<td align="right">0.493</td>
+<td align="right">0.671</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">1020</td>
+<td align="right">0.629</td>
+<td align="right">0.530</td>
+<td align="right">0.690</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">1022</td>
+<td align="right">0.641</td>
+<td align="right">0.596</td>
+<td align="right">0.681</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">1025</td>
+<td align="right">0.630</td>
+<td align="right">0.514</td>
+<td align="right">0.655</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">1030</td>
+<td align="right">0.630</td>
+<td align="right">0.539</td>
+<td align="right">0.656</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">1032</td>
+<td align="right">0.629</td>
+<td align="right">0.527</td>
+<td align="right">0.653</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">1033</td>
+<td align="right">0.675</td>
+<td align="right">0.604</td>
+<td align="right">0.701</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">1037</td>
+<td align="right">0.635</td>
+<td align="right">0.563</td>
+<td align="right">0.659</td>
+</tr>
+<tr class="odd">
+<td align="left">pop_immun</td>
+<td align="right">1039</td>
+<td align="right">0.600</td>
+<td align="right">0.519</td>
+<td align="right">0.619</td>
+</tr>
+<tr class="even">
+<td align="left">pop_immun</td>
+<td align="right">1045</td>
+<td align="right">0.631</td>
+<td align="right">0.532</td>
+<td align="right">0.658</td>
 </tr>
 <tr class="odd">
 <td align="left">prop_5</td>
-<td align="right">100</td>
-<td align="right">0.000</td>
-<td align="right">0.000</td>
-<td align="right">0.400</td>
+<td align="right">2</td>
+<td align="right">0.700</td>
+<td align="right">0.248</td>
+<td align="right">0.900</td>
 </tr>
 <tr class="even">
 <td align="left">prop_5</td>
-<td align="right">150</td>
+<td align="right">3</td>
+<td align="right">0.800</td>
 <td align="right">0.600</td>
-<td align="right">0.400</td>
-<td align="right">1.000</td>
+<td align="right">0.905</td>
 </tr>
 <tr class="odd">
 <td align="left">prop_5</td>
-<td align="right">200</td>
+<td align="right">6</td>
+<td align="right">0.600</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">7</td>
+<td align="right">0.600</td>
+<td align="right">0.000</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">11</td>
+<td align="right">0.883</td>
+<td align="right">0.633</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">15</td>
+<td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.400</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">17</td>
 <td align="right">0.400</td>
 <td align="right">0.000</td>
 <td align="right">0.800</td>
 </tr>
 <tr class="even">
 <td align="left">prop_5</td>
-<td align="right">250</td>
-<td align="right">1.000</td>
+<td align="right">24</td>
+<td align="right">0.800</td>
+<td align="right">0.600</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">25</td>
 <td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">26</td>
+<td align="right">0.800</td>
+<td align="right">0.800</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">30</td>
+<td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">33</td>
+<td align="right">0.800</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">50</td>
+<td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">307</td>
+<td align="right">1.000</td>
+<td align="right">0.790</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">312</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">315</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">317</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">318</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">322</td>
+<td align="right">1.000</td>
+<td align="right">0.800</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">324</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">338</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">340</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">345</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">348</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">801</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">805</td>
+<td align="right">0.900</td>
+<td align="right">0.900</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">807</td>
+<td align="right">0.640</td>
+<td align="right">0.240</td>
+<td align="right">0.920</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">810</td>
+<td align="right">0.600</td>
+<td align="right">0.095</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">811</td>
+<td align="right">0.920</td>
+<td align="right">0.520</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">814</td>
+<td align="right">0.400</td>
+<td align="right">0.000</td>
+<td align="right">0.800</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">822</td>
+<td align="right">0.500</td>
+<td align="right">0.200</td>
+<td align="right">0.600</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">827</td>
+<td align="right">0.700</td>
+<td align="right">0.600</td>
+<td align="right">0.900</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">833</td>
+<td align="right">0.200</td>
+<td align="right">0.000</td>
+<td align="right">0.200</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">839</td>
+<td align="right">0.600</td>
+<td align="right">0.200</td>
+<td align="right">0.905</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">845</td>
+<td align="right">0.600</td>
+<td align="right">0.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">1016</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">1019</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">1020</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">1022</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">1025</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">1030</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">1032</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">1033</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">1037</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="odd">
+<td align="left">prop_5</td>
+<td align="right">1039</td>
+<td align="right">1.000</td>
+<td align="right">0.900</td>
+<td align="right">1.000</td>
+</tr>
+<tr class="even">
+<td align="left">prop_5</td>
+<td align="right">1045</td>
+<td align="right">1.000</td>
+<td align="right">0.600</td>
 <td align="right">1.000</td>
 </tr>
 </tbody>
@@ -594,8 +1744,8 @@
 <span></span>
 <span><span class="va">est_res_bsl</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/ImmuPop_bsl_est.html">ImmuPop_bsl_est</a></span><span class="op">(</span></span>
 <span>  df <span class="op">=</span> <span class="va">df_long_bsl</span>,</span>
-<span>  protect_c <span class="op">=</span> <span class="va">protect_c</span>,</span>
-<span>  protect_a <span class="op">=</span> <span class="va">protect_a</span>,</span>
+<span>  protect_c <span class="op">=</span> <span class="va">protect_child</span>,</span>
+<span>  protect_a <span class="op">=</span> <span class="va">protect_adult</span>,</span>
 <span>  age_prop <span class="op">=</span> <span class="va">age_prop</span>,</span>
 <span>  contact_matrix <span class="op">=</span> <span class="va">contact_matrix</span>,</span>
 <span>  sim_num <span class="op">=</span> <span class="fl">100</span></span>
@@ -614,58 +1764,58 @@
 <tr class="odd">
 <td align="left">GMT</td>
 <td align="right">1</td>
-<td align="right">4.600</td>
-<td align="right">1.895</td>
-<td align="right">8.410</td>
+<td align="right">13.399</td>
+<td align="right">11.721</td>
+<td align="right">15.175</td>
 </tr>
 <tr class="even">
 <td align="left">GMT</td>
 <td align="right">2</td>
-<td align="right">7.400</td>
-<td align="right">2.800</td>
-<td align="right">11.305</td>
+<td align="right">14.526</td>
+<td align="right">12.932</td>
+<td align="right">16.170</td>
 </tr>
 <tr class="odd">
 <td align="left">RR_R0</td>
 <td align="right">1</td>
-<td align="right">0.187</td>
-<td align="right">0.181</td>
-<td align="right">0.343</td>
+<td align="right">0.263</td>
+<td align="right">0.243</td>
+<td align="right">0.289</td>
 </tr>
 <tr class="even">
 <td align="left">RR_R0</td>
 <td align="right">2</td>
-<td align="right">0.229</td>
-<td align="right">0.201</td>
-<td align="right">0.393</td>
+<td align="right">0.283</td>
+<td align="right">0.264</td>
+<td align="right">0.301</td>
 </tr>
 <tr class="odd">
 <td align="left">pop_immun</td>
 <td align="right">1</td>
-<td align="right">0.180</td>
-<td align="right">0.160</td>
-<td align="right">0.338</td>
+<td align="right">0.261</td>
+<td align="right">0.240</td>
+<td align="right">0.289</td>
 </tr>
 <tr class="even">
 <td align="left">pop_immun</td>
 <td align="right">2</td>
-<td align="right">0.218</td>
-<td align="right">0.174</td>
-<td align="right">0.372</td>
+<td align="right">0.279</td>
+<td align="right">0.259</td>
+<td align="right">0.308</td>
 </tr>
 <tr class="odd">
 <td align="left">prop_5</td>
 <td align="right">1</td>
-<td align="right">0.000</td>
-<td align="right">0.000</td>
-<td align="right">0.610</td>
+<td align="right">0.758</td>
+<td align="right">0.675</td>
+<td align="right">0.815</td>
 </tr>
 <tr class="even">
 <td align="left">prop_5</td>
 <td align="right">2</td>
-<td align="right">0.400</td>
-<td align="right">0.000</td>
-<td align="right">0.800</td>
+<td align="right">0.789</td>
+<td align="right">0.721</td>
+<td align="right">0.843</td>
 </tr>
 </tbody>
 </table>
@@ -695,7 +1845,13 @@
 </ul>
 </div>
 
-
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://app.codecov.io/gh/wjxiong5633/ImmunPop" class="external-link"><img src="https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg" alt="Codecov test coverage"></a></li>
+</ul>
+</div>
 
   </aside>
 </div>
