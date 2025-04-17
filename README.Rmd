@@ -35,7 +35,7 @@ These estimators help assess population immunity and predict the impact of infec
 
 You can install the development version of **ImmuPop** from GitHub:
 
-```{r message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+```{r message=FALSE, warning=FALSE, paged.print=FALSE}
 # install.packages("devtools")
 devtools::install_github("wjxiong5633/ImmuPop")
 ```
