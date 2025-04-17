@@ -18,6 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- [![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml) -->
 <!-- [![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop) -->
+[![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop)
 <!-- badges: end -->
 
 **ImmuPop** is an R package designed to estimate key population immunity metrics from individual serology data. The package provides the following estimators:
@@ -33,8 +35,8 @@ These estimators help assess population immunity and predict the impact of infec
 
 You can install the development version of **ImmuPop** from GitHub:
 
-```{r echo=TRUE, message=FALSE, warning=FALSE, paged.print=FALSE}
-# install.packages("devtools")
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE, paged.print=FALSE}
+install.packages("devtools")
 devtools::install_github("wjxiong5633/ImmuPop")
 ```
 
@@ -57,7 +59,7 @@ The package includes example data (`ImmuPop_raw_data`), which contains columns s
 
 ```{r}
 data("ImmuPop_raw_data")
-knitr::kable(ImmuPop_raw_data, digits = 3, row.names = F)
+knitr::kable(head(ImmuPop_raw_data, 10), digits = 3, row.names = F)
 ```
 
 ### Data Preparation
@@ -66,7 +68,7 @@ Use the `generate_data()` function to preprocess raw data and categorize age gro
 
 ```{r}
 data_example <- generate_data(ImmuPop_raw_data, cut_age = c(0, 18, 50, 100))
-knitr::kable(data_example, digits = 3, row.names = F)
+knitr::kable(head(data_example, 10), digits = 3, row.names = F)
 ```
 
 ### Define Population Parameters
@@ -104,8 +106,8 @@ Define protection effects for children and adults based on **HAI titer levels** 
 
 ```{r}
 # each item of vector represent the protection of each titer level (e.g. 1-10 titer level)
-protect_c <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
-protect_a <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
+protect_child <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
+protect_adult <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
 ```
 
 ---
@@ -114,15 +116,15 @@ protect_a <- c(0.1, 0.2, 0.3, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 0.8)
 
 ### Estimating Immunity at a Specific Time Point
 
-To estimate immunity for a **specific time point** (e.g., `time = 200`):
+To estimate immunity for a **specific time point** (e.g., `time = 15`):
 
 ```{r}
-data_example_t <- data_example %>% filter(time == 200)
+data_example_t <- data_example %>% filter(time == 20)
 
 result <- ImmuPop_timet_est(
   df = data_example_t,
-  protect_c = protect_c,
-  protect_a = protect_a,
+  protect_c = protect_child,
+  protect_a = protect_adult,
   age_prop = age_prop,
   contact_matrix = contact_matrix,
   sim_num = 100
@@ -133,13 +135,13 @@ knitr::kable(result, digits = 3, row.names = F)
 
 ### Estimating Immunity Across All Time Points
 
-To estimate immunity across **all time points**:
+To estimate immunity across **all time points**, it will return the result of the time point that contains all age groups.
 
 ```{r}
 est_res_all <- ImmuPop_allt_est(
   df_long = data_example,
-  protect_c = protect_c,
-  protect_a = protect_a,
+  protect_c = protect_child,
+  protect_a = protect_adult,
   age_prop = age_prop,
   contact_matrix = contact_matrix,
   sim_num = 100
@@ -157,8 +159,8 @@ df_long_bsl <- data_example %>% filter(bsl == "yes")
 
 est_res_bsl <- ImmuPop_bsl_est(
   df = df_long_bsl,
-  protect_c = protect_c,
-  protect_a = protect_a,
+  protect_c = protect_child,
+  protect_a = protect_adult,
   age_prop = age_prop,
   contact_matrix = contact_matrix,
   sim_num = 100
