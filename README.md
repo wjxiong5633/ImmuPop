@@ -29,6 +29,16 @@ You can install the development version of **ImmuPop** from GitHub:
 ``` r
 #install.packages("devtools")
 devtools::install_github("wjxiong5633/ImmuPop")
+#> 
+#> ── R CMD build ─────────────────────────────────────────────────────────────────
+#>          checking for file 'C:\Users\Weijia\AppData\Local\Temp\RtmpoV42rp\remotes73503cf056eb\wjxiong5633-ImmuPop-8d0591b/DESCRIPTION' ...  ✔  checking for file 'C:\Users\Weijia\AppData\Local\Temp\RtmpoV42rp\remotes73503cf056eb\wjxiong5633-ImmuPop-8d0591b/DESCRIPTION'
+#>       ─  preparing 'ImmuPop':
+#>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
+#>       ─  checking for LF line-endings in source and make files and shell scripts
+#>   ─  checking for empty or unneeded directories
+#>   ─  building 'ImmuPop_0.1.0.tar.gz'
+#>      
+#> 
 ```
 
 ## Example Usage
@@ -173,10 +183,10 @@ knitr::kable(result, digits = 3, row.names = F)
 
 | estimator | value | CI_lwr | CI_upr |
 |:----------|------:|-------:|-------:|
-| pop_immun | 0.182 |   0.14 |  0.358 |
-| RR_R0     | 0.185 |   0.17 |  0.369 |
-| GMT       | 6.300 |   1.40 |  9.705 |
-| prop_5    | 0.400 |   0.00 |  0.400 |
+| pop_immun | 0.184 |  0.140 |  0.380 |
+| RR_R0     | 0.183 |  0.176 |  0.395 |
+| GMT       | 5.400 |  1.895 |  9.800 |
+| prop_5    | 0.400 |  0.000 |  0.400 |
 
 ### Estimating Immunity Across All Time Points
 
@@ -198,16 +208,16 @@ knitr::kable(head(est_res_all,10), digits = 3, row.names = F)
 
 | estimator | time |  value | CI_lwr | CI_upr |
 |:----------|-----:|-------:|-------:|-------:|
-| GMT       |    2 | 18.647 |  6.800 | 29.350 |
-| GMT       |    3 | 17.809 |  7.241 | 27.336 |
-| GMT       |    6 | 18.857 | 12.800 | 25.810 |
-| GMT       |    7 | 11.514 |  4.400 | 19.238 |
-| GMT       |   11 | 23.300 |  8.294 | 31.968 |
-| GMT       |   15 |  5.600 |  2.295 | 10.200 |
-| GMT       |   17 | 12.200 |  3.295 | 19.315 |
-| GMT       |   24 | 19.743 |  7.672 | 28.519 |
-| GMT       |   25 | 11.095 |  4.759 | 16.359 |
-| GMT       |   26 | 21.095 |  8.761 | 34.356 |
+| GMT       |    2 | 15.497 |  5.507 | 28.873 |
+| GMT       |    3 | 15.759 |  7.123 | 27.378 |
+| GMT       |    6 | 19.057 | 12.170 | 27.010 |
+| GMT       |    7 | 11.914 |  4.018 | 19.319 |
+| GMT       |   11 | 21.850 |  8.949 | 32.707 |
+| GMT       |   15 |  6.300 |  1.695 | 10.105 |
+| GMT       |   17 | 12.300 |  3.685 | 19.200 |
+| GMT       |   24 | 17.057 |  6.980 | 28.169 |
+| GMT       |   25 |  8.730 |  4.239 | 15.591 |
+| GMT       |   26 | 21.281 |  8.836 | 34.283 |
 
 ### Estimating Baseline Population Immunity (Pre-Epidemic)
 
@@ -230,11 +240,11 @@ knitr::kable(est_res_bsl, digits = 3, row.names = F)
 
 | estimator | epi |  value | CI_lwr | CI_upr |
 |:----------|----:|-------:|-------:|-------:|
-| GMT       |   1 | 13.444 | 12.028 | 14.847 |
-| GMT       |   2 | 14.674 | 12.701 | 16.059 |
-| RR_R0     |   1 |  0.264 |  0.240 |  0.286 |
-| RR_R0     |   2 |  0.282 |  0.263 |  0.309 |
-| pop_immun |   1 |  0.262 |  0.238 |  0.285 |
-| pop_immun |   2 |  0.280 |  0.259 |  0.310 |
-| prop_5    |   1 |  0.758 |  0.693 |  0.808 |
-| prop_5    |   2 |  0.800 |  0.729 |  0.847 |
+| GMT       |   1 | 13.617 | 12.021 | 15.206 |
+| GMT       |   2 | 14.581 | 13.332 | 16.230 |
+| RR_R0     |   1 |  0.268 |  0.240 |  0.298 |
+| RR_R0     |   2 |  0.285 |  0.263 |  0.307 |
+| pop_immun |   1 |  0.266 |  0.237 |  0.297 |
+| pop_immun |   2 |  0.281 |  0.259 |  0.304 |
+| prop_5    |   1 |  0.768 |  0.693 |  0.834 |
+| prop_5    |   2 |  0.798 |  0.731 |  0.852 |
