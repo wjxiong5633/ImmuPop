@@ -18,8 +18,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- [![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml) -->
 <!-- [![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop) -->
-[![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml)
-[![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop)
+<!-- [![R-CMD-check](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wjxiong5633/ImmunPop/actions/workflows/R-CMD-check.yaml) -->
+<!-- [![Codecov test coverage](https://codecov.io/gh/wjxiong5633/ImmunPop/graph/badge.svg)](https://app.codecov.io/gh/wjxiong5633/ImmunPop) -->
 <!-- badges: end -->
 
 **ImmuPop** is an R package designed to estimate key population immunity metrics from individual serology data. The package provides the following estimators:
@@ -36,7 +36,7 @@ These estimators help assess population immunity and predict the impact of infec
 You can install the development version of **ImmuPop** from GitHub:
 
 ```{r message=FALSE, warning=FALSE, paged.print=FALSE}
-# install.packages("devtools")
+#install.packages("devtools")
 devtools::install_github("wjxiong5633/ImmuPop")
 ```
 
@@ -92,7 +92,8 @@ contact_matrix <- matrix(
 )
 ```
 
-Or can use **socialmixr** package to generate a contact matrix:
+Or can use **[socialmixr](https://cran.r-project.org/web/packages/socialmixr/vignettes/socialmixr.html)** package to generate a contact matrix:
+
 
 ```{r}
 library(socialmixr)
@@ -147,7 +148,7 @@ est_res_all <- ImmuPop_allt_est(
   sim_num = 100
 )
 
-knitr::kable(est_res_all, digits = 3, row.names = F)
+knitr::kable(head(est_res_all,10), digits = 3, row.names = F)
 ```
 
 ### Estimating Baseline Population Immunity (Pre-Epidemic)
