@@ -12,10 +12,10 @@ RoxygenNote: 7.3.2
 Imports:
     dplyr,
     rlist,
-    MCMCpack
+    MCMCpack,
+    Matrix
 Suggests:
     MatrixModels,
-    Matrix,
     testthat (>= 3.0.0)
 Depends: 
     R (>= 3.5)
