@@ -31,7 +31,7 @@ You can install the development version of **ImmuPop** from GitHub:
 devtools::install_github("wjxiong5633/ImmuPop")
 #> 
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#>          checking for file 'C:\Users\Weijia\AppData\Local\Temp\RtmpoV42rp\remotes73503cf056eb\wjxiong5633-ImmuPop-8d0591b/DESCRIPTION' ...  ✔  checking for file 'C:\Users\Weijia\AppData\Local\Temp\RtmpoV42rp\remotes73503cf056eb\wjxiong5633-ImmuPop-8d0591b/DESCRIPTION'
+#>          checking for file 'C:\Users\Weijia\AppData\Local\Temp\Rtmp8WmrKI\remotes320410f62285\wjxiong5633-ImmuPop-12dc4fd/DESCRIPTION' ...  ✔  checking for file 'C:\Users\Weijia\AppData\Local\Temp\Rtmp8WmrKI\remotes320410f62285\wjxiong5633-ImmuPop-12dc4fd/DESCRIPTION'
 #>       ─  preparing 'ImmuPop':
 #>    checking DESCRIPTION meta-information ...  ✔  checking DESCRIPTION meta-information
 #>       ─  checking for LF line-endings in source and make files and shell scripts
@@ -183,10 +183,10 @@ knitr::kable(result, digits = 3, row.names = F)
 
 | estimator | value | CI_lwr | CI_upr |
 |:----------|------:|-------:|-------:|
-| pop_immun | 0.184 |  0.140 |  0.380 |
-| RR_R0     | 0.183 |  0.176 |  0.395 |
-| GMT       | 5.400 |  1.895 |  9.800 |
-| prop_5    | 0.400 |  0.000 |  0.400 |
+| pop_immun | 0.184 |  0.140 |  0.379 |
+| RR_R0     | 0.182 |  0.173 |  0.351 |
+| GMT       | 5.600 |  1.895 |  9.800 |
+| prop_5    | 0.000 |  0.000 |  0.400 |
 
 ### Estimating Immunity Across All Time Points
 
@@ -208,16 +208,16 @@ knitr::kable(head(est_res_all,10), digits = 3, row.names = F)
 
 | estimator | time |  value | CI_lwr | CI_upr |
 |:----------|-----:|-------:|-------:|-------:|
-| GMT       |    2 | 15.497 |  5.507 | 28.873 |
-| GMT       |    3 | 15.759 |  7.123 | 27.378 |
-| GMT       |    6 | 19.057 | 12.170 | 27.010 |
-| GMT       |    7 | 11.914 |  4.018 | 19.319 |
-| GMT       |   11 | 21.850 |  8.949 | 32.707 |
-| GMT       |   15 |  6.300 |  1.695 | 10.105 |
-| GMT       |   17 | 12.300 |  3.685 | 19.200 |
-| GMT       |   24 | 17.057 |  6.980 | 28.169 |
-| GMT       |   25 |  8.730 |  4.239 | 15.591 |
-| GMT       |   26 | 21.281 |  8.836 | 34.283 |
+| GMT       |    2 | 16.199 |  6.299 | 28.114 |
+| GMT       |    3 | 19.344 |  7.530 | 27.336 |
+| GMT       |    6 | 18.514 | 12.590 | 27.600 |
+| GMT       |    7 | 11.114 |  4.495 | 19.143 |
+| GMT       |   11 | 20.634 |  9.219 | 33.468 |
+| GMT       |   15 |  6.100 |  1.695 |  9.105 |
+| GMT       |   17 | 11.700 |  4.695 | 19.515 |
+| GMT       |   24 | 18.937 |  6.800 | 28.871 |
+| GMT       |   25 | 10.019 |  3.615 | 15.861 |
+| GMT       |   26 | 21.523 |  8.693 | 34.301 |
 
 ### Estimating Baseline Population Immunity (Pre-Epidemic)
 
@@ -240,11 +240,20 @@ knitr::kable(est_res_bsl, digits = 3, row.names = F)
 
 | estimator | epi |  value | CI_lwr | CI_upr |
 |:----------|----:|-------:|-------:|-------:|
-| GMT       |   1 | 13.617 | 12.021 | 15.206 |
-| GMT       |   2 | 14.581 | 13.332 | 16.230 |
-| RR_R0     |   1 |  0.268 |  0.240 |  0.298 |
-| RR_R0     |   2 |  0.285 |  0.263 |  0.307 |
-| pop_immun |   1 |  0.266 |  0.237 |  0.297 |
-| pop_immun |   2 |  0.281 |  0.259 |  0.304 |
-| prop_5    |   1 |  0.768 |  0.693 |  0.834 |
-| prop_5    |   2 |  0.798 |  0.731 |  0.852 |
+| GMT       |   1 | 13.492 | 12.016 | 15.178 |
+| GMT       |   2 | 14.480 | 12.909 | 16.070 |
+| RR_R0     |   1 |  0.264 |  0.241 |  0.283 |
+| RR_R0     |   2 |  0.286 |  0.265 |  0.307 |
+| pop_immun |   1 |  0.262 |  0.239 |  0.285 |
+| pop_immun |   2 |  0.283 |  0.260 |  0.308 |
+| prop_5    |   1 |  0.771 |  0.695 |  0.833 |
+| prop_5    |   2 |  0.794 |  0.721 |  0.852 |
+
+------------------------------------------------------------------------
+
+## Citation
+
+To cite package **ImmuPop** in publications use:
+
+A Framework for Measuring Population Immunity Against Influenza Using
+Individual Antibody Titers.
