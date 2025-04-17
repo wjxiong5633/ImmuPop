@@ -30,8 +30,8 @@
 #' protect_c <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
 #' protect_a <- c(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95)
 #'
-#' # Data at a specific time point (e.g., time == 200)
-#' data_example_t <- data_example[data_example$time == 200, ]
+#' # Data at a specific time point (e.g., time == 15)
+#' data_example_t <- data_example[data_example$time == 15, ]
 #'
 #' # Run the estimation function
 #' result <- ImmuPop_timet_est(

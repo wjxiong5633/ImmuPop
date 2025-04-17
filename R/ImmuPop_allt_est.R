@@ -14,10 +14,14 @@
 #' @export
 
 # Global variables are defined after the function header
-utils::globalVariables(c("time", "estimator", "CI_lwr", "CI_upr", "epi", "value"))
+utils::globalVariables(c("time", "estimator", "CI_lwr", "CI_upr", "epi", "value", "agegp1"))
 
 ImmuPop_allt_est <- function(df_long, protect_c, protect_a, age_prop, contact_matrix, sim_num = 500) {
-  time_vec <- unique(df_long$time)
+  count_agegps_num <- df_long %>%
+    group_by(time) %>%
+    dplyr::summarise(count = length(unique(agegp1)))
+  time_filter <- count_agegps_num$time[count_agegps_num$count >= length(age_prop)]
+  time_vec <- sort(time_filter)
 
   # Loop through each time point
   result_all <- lapply(time_vec, function(t) {
